@@ -84,7 +84,7 @@ document.addEventListener('alpine:init', () => {
 
             Alpine.store('notification').showMessage("✅ Redirigiendo a la compra...", "success");
             setTimeout(() => {
-                window.location.href = "comprar-derechos.html";
+                window.location.href = "orders.html";
             }, 2000);
         }
     });
