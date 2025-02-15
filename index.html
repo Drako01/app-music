@@ -8,33 +8,68 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <link rel="stylesheet" href="/assets/styles/styles.css">
 </head>
 
 <body class="bg-gray-900 text-white">
+    <!-- CONTENEDOR PRINCIPAL DE ALPINE.JS -->
+    <div x-data="{ 
+                    showCart: false, 
+                    showLogin: false, 
+                    showOrders: false, 
+                    showLyrics: false, 
+                    currentLyricTitle: '',
+                    currentLyricContent: '',
+                    
+                    orders: [
+                        { type: 'Compra', date: '📅 12 Feb 2024' },
+                        { type: 'Venta', date: '📅 05 Ene 2024' },
+                        { type: 'Trueque', date: '📅 23 Dic 2023' },
+                        { type: 'Compra', date: '📅 15 Nov 2023' },
+                        { type: 'Venta', date: '📅 08 Oct 2023' }
+                    ],
 
-    <!-- HEADER -->
-    <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
-        <div class="text-2xl font-bold">🎷Regalías Market</div>
-        <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
-        <div class="flex space-x-4">
-            <button>🛒 Carrito</button>
-            <button>🔑 Ingresar</button>
-            <button>📦 Mis compras</button>
-        </div>
-    </header>
+                    loadLyrics(title, url) {
+                        fetch(url)
+                            .then(response => response.text())
+                            .then(text => {
+                                this.currentLyricTitle = title;
+                                this.currentLyricContent = marked.parse(text); // Convierte Markdown en HTML
+                                this.showLyrics = true;
 
-    <!-- HERO CON EFECTO PARALLAX -->
-    <section class="relative h-[500px] flex items-center justify-center text-center bg-fixed bg-cover bg-center"
-        style="background-image: url('/assets/img/instrumentos.jpg');">
-        <div class="bg-black bg-opacity-50 p-6 rounded-lg">
-            <h1 class="text-4xl font-bold">Explora la Música</h1>
-            <p class="text-lg">Composiciones, letras y más en un solo lugar.</p>
-        </div>
-    </section>
+                                // Insertar contenido convertido en el modal
+                                setTimeout(() => {
+                                    document.getElementById('lyricsContent').innerHTML = this.currentLyricContent;
+                                }, 50);
+                            })
+                            .catch(error => console.error('Error cargando la letra:', error));
+                    }
+                }">
 
-    <!-- CARRUSEL -->
-    <section class="p-4" x-data="{ 
+
+        <!-- HEADER -->
+        <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
+            <div class="text-2xl font-bold">🎷Regalías Market</div>
+            <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
+            <div class="flex space-x-4">
+                <button @click="showCart = true">🛒 Carrito</button>
+                <button @click="showLogin = true">🔑 Ingresar</button>
+                <button @click="showOrders = true">📦 Mis Compras</button>
+            </div>
+        </header>
+
+        <!-- HERO CON EFECTO PARALLAX -->
+        <section class="relative h-[500px] flex items-center justify-center text-center bg-fixed bg-cover bg-center"
+            style="background-image: url('/assets/img/instrumentos.jpg');">
+            <div class="bg-black bg-opacity-50 p-6 rounded-lg">
+                <h1 class="text-4xl font-bold">Explora la Música</h1>
+                <p class="text-lg">Composiciones, letras y más en un solo lugar.</p>
+            </div>
+        </section>
+
+        <!-- CARRUSEL -->
+        <section class="p-4" x-data="{ 
         active: 0, 
         items: [
                     { title: 'Groovy Ambient Funk', type: 'Canción', image: '/assets/img/cancion1.webp', audio: '/assets/music/cancion01.mp3' },
@@ -46,183 +81,322 @@
         next() { this.active = (this.active + 1) % this.items.length },
         prev() { this.active = (this.active - 1 + this.items.length) % this.items.length }
     }" x-init="setInterval(() => next(), 3000)">
-        <h2 class="text-xl font-bold mb-2">Últimos Incorporados</h2>
+            <h2 class="text-xl font-bold mb-2">Últimos Incorporados</h2>
 
-        <div class="relative w-full max-w-3xl mx-auto overflow-hidden">
-            <div class="flex transition-transform duration-500 ease-in-out"
-                :style="'transform: translateX(-' + active * 100 + '%)'">
-                <template x-for="(item, index) in items" :key="index">
-                    <div
-                        class="w-full flex-shrink-0 flex flex-col items-center justify-center bg-gray-700 p-4 rounded-lg">
-                        <img :src="item.image" alt="Imagen de la canción o composición"
-                            class="w-full h-80 object-cover rounded-lg">
-                        <h3 class="text-lg font-semibold mt-2" x-text="item.title"></h3>
-                        <p class="text-gray-400 text-sm" x-text="item.type"></p>
-                        <button @click="playAudio(item.audio)"
-                            class="mt-2 bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded flex items-center">
-                            ▶ Reproducir
-                        </button>
-                        <button @click="comprarDerechos(item)"
-                            class="mt-2 bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded">
-                            💰 Comprar Derechos
-                        </button>
+            <div class="relative w-full max-w-3xl mx-auto overflow-hidden">
+                <div class="flex transition-transform duration-500 ease-in-out"
+                    :style="'transform: translateX(-' + active * 100 + '%)'">
+                    <template x-for="(item, index) in items" :key="index">
+                        <div
+                            class="w-full flex-shrink-0 flex flex-col items-center justify-center bg-gray-700 p-4 rounded-lg">
+                            <img :src="item.image" alt="Imagen de la canción o composición"
+                                class="w-full h-80 object-cover rounded-lg">
+                            <h3 class="text-lg font-semibold mt-2" x-text="item.title"></h3>
+                            <p class="text-gray-400 text-sm" x-text="item.type"></p>
+                            <button @click="playAudio(item.audio)"
+                                class="mt-2 bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded flex items-center">
+                                ▶ Reproducir
+                            </button>
+                            <button @click="comprarDerechos(item)"
+                                class="mt-2 bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded">
+                                💰 Comprar Derechos
+                            </button>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Botones del carrusel -->
+                <button @click="prev()"
+                    class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 px-3 py-2">◀</button>
+                <button @click="next()"
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 px-3 py-2">▶</button>
+            </div>
+
+            <!-- AUDIO PLAYER (OCULTO) -->
+            <audio id="audioPlayer" class="hidden"></audio>
+
+        </section>
+
+
+        <!-- MENÚ DE NAVEGACIÓN CON DESPLEGABLE -->
+        <nav class="bg-gray-800 p-4 flex justify-between items-center">
+            <div class="space-x-4">
+                <a href="#" class="text-yellow-400">🎼 Composiciones</a>
+                <a href="#" class="text-yellow-400">✍️ Letras</a>
+                <a href="#" class="text-yellow-400">🎤 Interpretaciones</a>
+                <a href="#" class="text-yellow-400">📜 Obras Completas</a>
+                <!-- Menú desplegable -->
+                <div class="relative inline-block" x-data="{ open: false }">
+                    <button @click="open = !open" class="text-yellow-400">➕ Más</button>
+                    <div x-show="open" class="absolute bg-gray-700 p-2 mt-2 rounded shadow-lg min-w-48">
+                        <a href="#" class="block px-4 py-2">🎧 Productores</a>
+                        <a href="#" class="block px-4 py-2">📀 Discos</a>
+                        <a href="#" class="block px-4 py-2">🎬 Videoclips</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTENIDO ALEATORIO -->
+        <section class="p-4">
+            <h2 class="text-xl font-bold mb-2">Descubre Nuevos Talentos</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-gray-700 p-4">🎶 Nuevas Cancionesa</div>
+                <div class="bg-gray-700 p-4">✍️ Letras Destacadas</div>
+                <div class="bg-gray-700 p-4">🎤 Nuevos Compositores</div>
+                <div class="bg-gray-700 p-4">📜 Obras Completas</div>
+            </div>
+        </section>
+
+        <!-- LISTA DE CONTENIDO DESTACADO -->
+        <section class="p-6" x-data="contentData()">
+            <h2 class="text-2xl font-bold mb-4">🎼 Descubre Más Música</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                <template x-for="(item, index) in contentList" :key="index">
+                    <div class="flex justify-between items-center bg-gray-800 p-4 rounded-lg shadow-md">
+                        <div>
+                            <h3 class="text-lg font-semibold" x-text="item.title"></h3>
+                            <p class="text-gray-400 text-sm" x-text="item.type"></p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <!-- Botón de reproducción para canciones y composiciones -->
+                            <button x-show="item.type === 'Canción' || item.type === 'Composición'"
+                                @click="playAudio(item.audio)" class="btn bg-green-500 hover:bg-green-700">
+                                ▶
+                            </button>
+
+                            <!-- Ícono para ver letras de canciones -->
+                            <a x-show="item.type === 'Letra'" href="#" @click.prevent="loadLyrics(item.title, item.url)"
+                                class="btn bg-yellow-500 hover:bg-yellow-700">
+                                📜
+                            </a>
+
+                            <!-- Botón para acceder al perfil del compositor -->
+                            <a x-show="item.type === 'Compositor'" :href="item.url"
+                                class="btn bg-blue-500 hover:bg-blue-700">
+                                <i class="fas fa-user"></i>
+                            </a>
+
+                            <!-- Ícono para visualizar partituras -->
+                            <a x-show="item.type === 'Partitura'" :href="item.image" target="_blank"
+                                class="btn bg-purple-500 hover:bg-purple-700">
+                                🎼
+                            </a>
+
+                            <!-- Botón Comprar Derechos -->
+                            <button @click="comprarDerechos(item)" class="btn bg-gray-500 hover:bg-gray-700">
+                                💰
+                            </button>
+                        </div>
                     </div>
                 </template>
             </div>
 
-            <!-- Botones del carrusel -->
-            <button @click="prev()"
-                class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 px-3 py-2">◀</button>
-            <button @click="next()"
-                class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 px-3 py-2">▶</button>
-        </div>
 
-        <!-- AUDIO PLAYER (OCULTO) -->
-        <audio id="audioPlayer" class="hidden"></audio>
+            <!-- AUDIO PLAYER (OCULTO) -->
+            <audio id="audioPlayer" class="hidden"></audio>
+        </section>
 
-    </section>
+        <!-- FOOTER -->
+        <footer class="bg-gray-800 text-gray-300 p-6 mt-10">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
 
-
-    <!-- MENÚ DE NAVEGACIÓN CON DESPLEGABLE -->
-    <nav class="bg-gray-800 p-4 flex justify-between items-center">
-        <div class="space-x-4">
-            <a href="#" class="text-yellow-400">🎼 Composiciones</a>
-            <a href="#" class="text-yellow-400">✍️ Letras</a>
-            <a href="#" class="text-yellow-400">🎤 Interpretaciones</a>
-            <a href="#" class="text-yellow-400">📜 Obras Completas</a>
-            <!-- Menú desplegable -->
-            <div class="relative inline-block" x-data="{ open: false }">
-                <button @click="open = !open" class="text-yellow-400">➕ Más</button>
-                <div x-show="open" class="absolute bg-gray-700 p-2 mt-2 rounded shadow-lg min-w-48">
-                    <a href="#" class="block px-4 py-2">🎧 Productores</a>
-                    <a href="#" class="block px-4 py-2">📀 Discos</a>
-                    <a href="#" class="block px-4 py-2">🎬 Videoclips</a>
+                <!-- Columna 1: Navegación rápida -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white">🔗 Navegación</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="#" class="hover:text-yellow-400">🏠 Inicio</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">🎼 Composiciones</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">✍️ Letras</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">🎤 Interpretaciones</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">📜 Obras Completas</a></li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-    </nav>
 
-    <!-- CONTENIDO ALEATORIO -->
-    <section class="p-4">
-        <h2 class="text-xl font-bold mb-2">Descubre Nuevos Talentos</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-gray-700 p-4">🎶 Nuevas Cancionesa</div>
-            <div class="bg-gray-700 p-4">✍️ Letras Destacadas</div>
-            <div class="bg-gray-700 p-4">🎤 Nuevos Compositores</div>
-            <div class="bg-gray-700 p-4">📜 Obras Completas</div>
-        </div>
-    </section>
+                <!-- Columna 2: Opciones de usuario -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white">🛒 Mi Cuenta</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><button @click="showLogin = true" class="hover:text-yellow-400">🔑 Ingresar</button></li>
+                        <li><button @click="showCart = true" class="hover:text-yellow-400">🛍️ Carrito</button></li>
+                        <li><button @click="showOrders = true" class="hover:text-yellow-400">📦 Mis Compras</button>
+                        </li>
+                    </ul>
+                </div>
 
-    <!-- LISTA DE CONTENIDO DESTACADO -->
-    <section class="p-6" x-data="contentData()">
-        <h2 class="text-2xl font-bold mb-4">🎼 Descubre Más Música</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-            <template x-for="(item, index) in contentList" :key="index">
-                <div class="flex justify-between items-center bg-gray-800 p-4 rounded-lg shadow-md">
-                    <div>
-                        <h3 class="text-lg font-semibold" x-text="item.title"></h3>
-                        <p class="text-gray-400 text-sm" x-text="item.type"></p>
+                <!-- Columna 3: Redes sociales -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white">🎸 Síguenos</h3>
+                    <div class="flex space-x-4 mt-2">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2">
-                        <!-- Botón de reproducción para canciones y composiciones -->
-                        <button x-show="item.type === 'Canción' || item.type === 'Composición'"
-                            @click="playAudio(item.audio)" class="btn bg-green-500 hover:bg-green-700">
-                            ▶
-                        </button>
-
-                        <!-- Icono para ver letras de canciones -->
-                        <a x-show="item.type === 'Letra'" :href="item.url"
-                            class="btn bg-yellow-500 hover:bg-yellow-700">
-                            📜
-                        </a>
-
-                        <!-- Botón para acceder al perfil del compositor -->
-                        <a x-show="item.type === 'Compositor'" :href="item.url"
-                            class="btn bg-blue-500 hover:bg-blue-700">
-                            <i class="fas fa-user"></i>
-                        </a>
-
-                        <!-- Ícono para visualizar partituras -->
-                        <a x-show="item.type === 'Partitura'" :href="item.image" target="_blank"
-                            class="btn bg-purple-500 hover:bg-purple-700">
-                            🎼
-                        </a>
-
-                        <!-- Botón Comprar Derechos -->
-                        <button @click="comprarDerechos(item)" class="btn bg-gray-500 hover:bg-gray-700">
-                            💰
-                        </button>
-                    </div>
-                </div>
-            </template>
-        </div>
-
-
-        <!-- AUDIO PLAYER (OCULTO) -->
-        <audio id="audioPlayer" class="hidden"></audio>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-gray-800 text-gray-300 p-6 mt-10">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- Columna 1: Navegación rápida -->
-            <div>
-                <h3 class="text-lg font-semibold text-white">🔗 Navegación</h3>
-                <ul class="mt-2 space-y-2">
-                    <li><a href="#" class="hover:text-yellow-400">🏠 Inicio</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">🎼 Composiciones</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">✍️ Letras</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">🎤 Interpretaciones</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">📜 Obras Completas</a></li>
-                </ul>
-            </div>
-
-            <!-- Columna 2: Opciones de usuario -->
-            <div>
-                <h3 class="text-lg font-semibold text-white">🛒 Mi Cuenta</h3>
-                <ul class="mt-2 space-y-2">
-                    <li><a href="#" class="hover:text-yellow-400">🔑 Ingresar</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">🛍️ Carrito</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">📦 Mis Compras</a></li>
-                </ul>
-            </div>
-
-            <!-- Columna 3: Redes sociales -->
-            <div>
-                <h3 class="text-lg font-semibold text-white">🎸 Síguenos</h3>
-                <div class="flex space-x-4 mt-2">
-                    <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
-                        <i class="fab fa-youtube"></i>
-                    </a>
                 </div>
 
             </div>
 
+            <!-- Línea divisoria -->
+            <hr class="my-6 border-gray-600">
+
+            <!-- Información legal -->
+            <div class="text-center text-sm">
+                <p>© 2025 Regalías Market. Todos los derechos reservados.</p>
+                <p class="mt-2">
+                    Términos y Condiciones | Políticas de Privacidad | Aviso Legal
+                </p>
+            </div>
+        </footer>
+
+
+
+        <!-- MODALES PARA CARRITO, INGRESAR Y MIS COMPRAS -->
+        <!-- MODAL CARRITO -->
+        <div x-show="showCart" x-cloak
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div class="bg-gray-800 p-6 rounded-lg w-96 md:w-[450px] text-white relative">
+                <button @click="showCart = false"
+                    class="absolute top-2 right-2 text-gray-400 hover:text-white">✖</button>
+                <h2 class="text-xl font-bold mb-4">🛒 Carrito de Compras</h2>
+
+                <!-- LISTA DE COMPRAS -->
+                <div x-data="{ cart: [
+                                { id: 1, title: 'Groovy Ambient Funk', price: 9.99, quantity: 1, image: '/assets/img/cancion1.webp' },
+                                { id: 2, title: 'Romantic Hope - Cinematic Orchestral', price: 14.99, quantity: 1, image: '/assets/img/composicion1.jpg' }
+                            ] }">
+
+                    <template x-for="(item, index) in cart" :key="item.id">
+                        <div class="bg-gray-700 p-3 rounded-lg flex items-center justify-between mt-2">
+                            <img :src="item.image" alt="Producto" class="w-12 h-12 rounded">
+
+                            <div class="flex-1 ml-3">
+                                <h3 class="text-lg font-semibold" x-text="item.title"></h3>
+                                <p class="text-gray-400 text-sm">💲 <span x-text="item.price.toFixed(2)"></span> | 🛒
+                                    x<span x-text="item.quantity"></span></p>
+                            </div>
+
+                            <button @click="cart.splice(index, 1)"
+                                class="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded">
+                                🗑️
+                            </button>
+                        </div>
+                    </template>
+
+                    <!-- MENSAJE SI NO HAY PRODUCTOS -->
+                    <p x-show="cart.length === 0" class="text-gray-400 text-center mt-4">Tu carrito está vacío.</p>
+
+                    <!-- BOTÓN DE FINALIZAR COMPRA -->
+                    <button x-show="cart.length > 0" @click="showCart = false"
+                        class="mt-4 bg-green-500 hover:bg-green-700 text-white px-4 py-2 w-full rounded">
+                        🏁 Finalizar Compra
+                    </button>
+
+                </div>
+            </div>
         </div>
 
-        <!-- Línea divisoria -->
-        <hr class="my-6 border-gray-600">
 
-        <!-- Información legal -->
-        <div class="text-center text-sm">
-            <p>© 2025 Regalías Market. Todos los derechos reservados.</p>
-            <p class="mt-2">
-                Términos y Condiciones | Políticas de Privacidad | Aviso Legal
-            </p>
+        <!-- MODAL INGRESAR -->
+        <div x-show="showLogin" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div class="bg-gray-800 p-6 rounded-lg w-96 text-white relative">
+                <button @click="showLogin = false"
+                    class="absolute top-2 right-2 text-gray-400 hover:text-white">✖</button>
+                <h2 class="text-xl font-bold mb-4">🔑 Iniciar Sesión</h2>
+                <p>Ingresa con tu cuenta para continuar.</p>
+                <input type="text" placeholder="Correo electrónico" class="w-full p-2 mt-3 bg-gray-700 rounded">
+                <input type="password" placeholder="Contraseña" class="w-full p-2 mt-3 bg-gray-700 rounded">
+                <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">Ingresar</button>
+            </div>
         </div>
-    </footer>
+
+        <!-- MODAL MIS COMPRAS -->
+        <div x-show="showOrders" x-cloak
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div class="bg-gray-800 p-6 rounded-lg w-96 md:w-[450px] text-white relative">
+                <button @click="showOrders = false"
+                    class="absolute top-2 right-2 text-gray-400 hover:text-white">✖</button>
+                <h2 class="text-xl font-bold mb-4">📦 Mis Compras</h2>
+
+                <!-- Verifica si hay operaciones -->
+                <div x-show="orders.length > 0" class="space-y-3">
+                    <template x-for="(item, index) in orders" :key="index">
+                        <div class="bg-gray-700 p-3 rounded-lg flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg font-semibold" x-text="item.type"></h3>
+                                <p class="text-gray-400 text-sm" x-text="item.date"></p>
+                            </div>
+                            <span class="px-3 py-1 text-sm font-bold rounded-lg flex items-center gap-2" :class="{
+                                    'bg-green-500 text-white': item.type === 'Compra',
+                                    'bg-yellow-500 text-gray-900': item.type === 'Trueque',
+                                    'bg-red-500 text-white': item.type === 'Venta'
+                                }">
+
+                                <template x-if="item.type === 'Compra'">
+                                    <i class="fas fa-shopping-cart"></i> <!-- Ícono de carrito de compra -->
+                                </template>
+
+                                <template x-if="item.type === 'Trueque'">
+                                    <i class="fas fa-exchange-alt"></i> <!-- Ícono de intercambio -->
+                                </template>
+
+                                <template x-if="item.type === 'Venta'">
+                                    <i class="fas fa-hand-holding-usd"></i> <!-- Ícono de venta -->
+                                </template>
+                            </span>
+
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Mensaje si no hay operaciones -->
+                <p x-show="orders.length === 0" class="text-gray-400 text-center mt-4">No tienes operaciones
+                    registradas.</p>
+            </div>
+        </div>
+        <!-- MODALES PARA CARRITO, INGRESAR Y MIS COMPRAS -->
+
+        <!-- MODAL PARA LETRAS DE CANCIONES -->
+        <div x-show="showLyrics" x-cloak 
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+
+            <div
+                class="bg-[#fdfdfd] p-8 rounded-lg w-[90%] md:w-[600px] 
+                text-black relative max-h-[80vh] overflow-y-auto shadow-lg ">
+                <!-- Botón para cerrar -->
+                <button @click="showLyrics = false"
+                    class="absolute top-2 right-2 text-gray-600 hover:text-black text-xl">✖</button>
+
+                <!-- Título de la Canción -->
+                <h2 class="text-3xl font-bold mb-4 text-center text-black" x-text="currentLyricTitle"></h2>
+                <hr>
+                <br>
+                <!-- Contenedor donde se renderiza el Markdown -->
+                <div id="lyricsContent" class="prose max-w-none text-gray-800 leading-relaxed"></div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <!-- MODALES PARA CARRITO, INGRESAR Y MIS COMPRAS -->
+
+
+    </div>
+
 
     <script src="/assets/js/script.js"></script>
 
