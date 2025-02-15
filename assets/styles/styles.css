@@ -1,4 +1,17 @@
 /* Archivo: /assets/styles/styles.css */
+body {
+    overflow-x: hidden; /* Oculta la barra de scroll lateral */
+    overflow-y: scroll; /* Permite el desplazamiento vertical sin mostrar la barra */
+    scrollbar-width: none; /* Para Firefox */
+    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+}
+
+/* Para ocultar la barra de scroll en WebKit (Chrome, Safari) */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+
 .btn {
     color: white;
     padding: 8px 16px;
@@ -9,4 +22,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.order{
+    margin-top: 10rem !important;
+    max-width: 1080px !important;
+}
+
+.box-firmas{
+    align-items: flex-end !important;
 }

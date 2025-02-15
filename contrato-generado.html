@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrato Generado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="/assets/js/loadOrder.js" defer></script>
+    <link rel="stylesheet" href="/assets/styles/styles.css">
+</head>
+
+<body class="bg-gray-900 text-white">
+
+    <!-- HEADER HARDCODEADO-->
+    <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
+        <div class="text-2xl font-bold">🎷Regalías Market</div>
+        <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
+        <div class="flex space-x-4">
+            <!-- Siempre muestra Carrito, Mis Compras y Logout -->
+            <div class="flex space-x-4">
+                <a href="/">🛒 Carrito</a>
+                <!-- Menú desplegable de perfil -->
+                <div class="relative">
+                    <!-- Botón de Perfil -->
+                    <a href="/">👤 Mi Perfil</a>
+                </div>
+                <!-- Botón de Logout -->
+                <a href="/" class="text-red-500">🚪 Cerrar sesión</a>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="container mx-auto mt-12 p-12 
+        border border-gray-700 rounded-lg bg-gray-800 text-white text-center order">
+
+        <!-- Título -->
+        <h1 class="text-2xl font-semibold mb-8">Contrato Generado</h1>
+        <div class="p-4 flex justify-between items-center w-full z-10">
+            <img src="/assets/img/contrato.jpeg" alt="" class="w-full">
+        </div>
+        <a id="" href="/"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg m-12 w-80 block text-center">
+            Finalizar
+        </a>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-gray-300 p-6 mt-10">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Columna 1: Navegación rápida -->
+            <div>
+                <h3 class="text-lg font-semibold text-white">🔗 Navegación</h3>
+                <ul class="mt-2 space-y-2">
+                    <li><a href="#" class="hover:text-yellow-400">🏠 Inicio</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">🎼 Composiciones</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">✍️ Letras</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">🎤 Interpretaciones</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">📜 Obras Completas</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 2: Opciones de usuario -->
+            <div>
+                <h3 class="text-lg font-semibold text-white">🛒 Mi Cuenta</h3>
+                <ul class="mt-2 space-y-2">
+                    <li><button @click="showLogin = true" class="hover:text-yellow-400">🔑 Ingresar</button></li>
+                    <li><button @click="showCart = true" class="hover:text-yellow-400">🛍️ Carrito</button></li>
+                    <li><button @click="showOrders = true" class="hover:text-yellow-400">📦 Mis Compras</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Redes sociales -->
+            <div>
+                <h3 class="text-lg font-semibold text-white">🎸 Síguenos</h3>
+                <div class="flex space-x-4 mt-2">
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 text-2xl">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Línea divisoria -->
+        <hr class="my-6 border-gray-600">
+
+        <!-- Información legal -->
+        <div class="text-center text-sm">
+            <p>© 2025 Regalías Market. Todos los derechos reservados.</p>
+            <p class="mt-2">
+                Términos y Condiciones | Políticas de Privacidad | Aviso Legal
+            </p>
+        </div>
+    </footer>
+
+    <!-- 🛑 MODAL DE NOTIFICACIÓN -->
+    <div x-data="$store.notification" x-show="show" x-transition.opacity.duration.1000ms
+        @keydown.escape.window="show = false"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" style="display: none;">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+            <p class="text-lg font-semibold text-gray-800" x-text="message"></p>
+            <button @click="show = false" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <script src="/assets/js/script.js"></script>
+</body>
+
+</html>
