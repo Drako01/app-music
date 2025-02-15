@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
-    <link rel="stylesheet" href="/assets/styles/styles.css">
+    <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -136,7 +136,7 @@
 
         <!-- HERO CON EFECTO PARALLAX -->
         <section class="relative h-[500px] flex items-center justify-center text-center bg-fixed bg-cover bg-center"
-            style="background-image: url('/assets/img/instrumentos.jpg');">
+            style="background-image: url('assets/img/instrumentos.jpg');">
             <div class="bg-black bg-opacity-50 p-6 rounded-lg">
                 <h1 class="text-4xl font-bold">Explora la Música</h1>
                 <p class="text-lg">Composiciones, letras y más en un solo lugar.</p>
@@ -147,11 +147,11 @@
         <section class="p-4" x-data="{ 
         active: 0, 
         items: [
-                    { title: 'Groovy Ambient Funk', type: 'Canción', image: '/assets/img/cancion1.webp', audio: '/assets/music/cancion01.mp3' },
-                    { title: 'Field Grass', type: 'Composición', image: '/assets/img/composicion1.jpg', audio: '/assets/music/composicion01.mp3' },
-                    { title: 'Viva el Amor', type: 'Canción', image: '/assets/img/cancion2.jpg', audio: '/assets/music/cancion02.mp3' },
-                    { title: 'Romantic Hope - Delicate Cinematic Orchestral', type: 'Composición', image: '/assets/img/composicion2.jpg', audio: '/assets/music/composicion02.mp3' },
-                    { title: 'A Short Acoustic Guitar Love Song', type: 'Canción', image: '/assets/img/cancion3.webp', audio: '/assets/music/cancion03.mp3' }
+                    { title: 'Groovy Ambient Funk', type: 'Canción', image: 'assets/img/cancion1.webp', audio: 'assets/music/cancion01.mp3' },
+                    { title: 'Field Grass', type: 'Composición', image: 'assets/img/composicion1.jpg', audio: 'assets/music/composicion01.mp3' },
+                    { title: 'Viva el Amor', type: 'Canción', image: 'assets/img/cancion2.jpg', audio: 'assets/music/cancion02.mp3' },
+                    { title: 'Romantic Hope - Delicate Cinematic Orchestral', type: 'Composición', image: 'assets/img/composicion2.jpg', audio: 'assets/music/composicion02.mp3' },
+                    { title: 'A Short Acoustic Guitar Love Song', type: 'Canción', image: 'assets/img/cancion3.webp', audio: 'assets/music/cancion03.mp3' }
                 ],
                     next() { this.active = (this.active + 1) % this.items.length },
                     prev() { this.active = (this.active - 1 + this.items.length) % this.items.length }
@@ -613,7 +613,7 @@
         </div>
     </div>
 
-    <script src="/assets/js/script.js"></script>
+    <script src="assets/js/script.js"></script>
 
 </body>
 
