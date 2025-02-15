@@ -1,0 +1,12 @@
+/* Archivo: /assets/styles/styles.css */
+.btn {
+    color: white;
+    padding: 8px 16px;
+    width: 48px;  /* w-12 en Tailwind */
+    height: 48px; /* h-12 en Tailwind */
+    font-size: 1.125rem; /* text-lg en Tailwind */
+    border-radius: 0.25rem; /* rounded en Tailwind */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
