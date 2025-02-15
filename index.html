@@ -86,7 +86,7 @@
                                 <p class="text-lg font-semibold text-gray-300">Usted es Creador/Artista:</p>
                                 <div class="space-y-2">
                                     <label class="flex items-center space-x-3">
-                                        <input type="checkbox" class="form-checkbox text-blue-500 h-5 w-5">
+                                        <input type="checkbox" checked class="form-checkbox text-blue-500 h-5 w-5">
                                         <span>Letra</span>
                                     </label>
                                     <label class="flex items-center space-x-3">
@@ -94,7 +94,7 @@
                                         <span>Composición musical</span>
                                     </label>
                                     <label class="flex items-center space-x-3">
-                                        <input type="checkbox" class="form-checkbox text-blue-500 h-5 w-5">
+                                        <input type="checkbox" checked class="form-checkbox text-blue-500 h-5 w-5">
                                         <span>Interpretación</span>
                                     </label>
                                     <label class="flex items-center space-x-3">
@@ -194,7 +194,7 @@
 
 
         <!-- MENÚ DE NAVEGACIÓN CON DESPLEGABLE -->
-        <nav class="bg-gray-800 p-4 flex justify-between items-center">
+        <nav class="bg-gray-800 p-4 flex justify-between items-center w-1200">
             <div class="space-x-4">
                 <a href="#" class="text-yellow-400">🎼 Composiciones</a>
                 <a href="#" class="text-yellow-400">✍️ Letras</a>
@@ -202,16 +202,143 @@
                 <a href="#" class="text-yellow-400">📜 Obras Completas</a>
 
                 <!-- Menú desplegable -->
-                <div class="relative inline-block" x-data="{ open: false }">
-                    <button @click="open = !open" @click.away="open = false" class="text-yellow-400">➕ Más</button>
+                <div class="relative inline-block" x-data="{ 
+                        open: false, 
+                        showModal: false, 
+                        newTitle: '', 
+                        newType: '', 
+                        newUrl: '', 
+                        isCreator: false, 
+                        thirdPartyRights: false, 
+                        dndaNumber: '123456798', 
+                        compositionName: 'Living la Vida Loca', 
+                        sampleUploaded: false, 
+                        sheetUploaded: false,
+                        declarationAccepted: false
+                    }">
+                    
+                    <!-- Botón Más -->
+                    <button @click="open = !open" class="text-yellow-400">➕ Más</button>
+                
+                    <!-- Opciones del menú -->
                     <div x-show="open" x-transition.opacity
                         class="absolute bg-gray-700 p-2 mt-2 rounded shadow-lg min-w-72">
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-600 rounded">✍️ Publicar Letra</a>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-600 rounded">🎼 Publicar Composición</a>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-600 rounded">🎤 Publicar Interpretación</a>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-600 rounded">📜 Publicar Obra Completa</a>
+                        <a href="#" @click.prevent="newType = 'Letra'; showModal = true; open = false"
+                            class="block px-4 py-2 hover:bg-gray-600 rounded">✍️ Publicar Letra</a>
+                        <a href="#" @click.prevent="newType = 'Composición'; showModal = true; open = false"
+                            class="block px-4 py-2 hover:bg-gray-600 rounded">🎼 Publicar Composición</a>
+                        <a href="#" @click.prevent="newType = 'Interpretación'; showModal = true; open = false"
+                            class="block px-4 py-2 hover:bg-gray-600 rounded">🎤 Publicar Interpretación</a>
+                        <a href="#" @click.prevent="newType = 'Obra Completa'; showModal = true; open = false"
+                            class="block px-4 py-2 hover:bg-gray-600 rounded">📜 Publicar Obra Completa</a>
+                    </div>
+                
+                    <!-- Modal de publicación -->
+                    <div x-show="showModal" x-transition.opacity 
+                    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                        <div class="bg-gray-800 p-8 rounded shadow-lg w-[700px]">
+                            <h2 class="text-xl font-semibold text-white mb-4">Nueva Publicación</h2>
+                
+                            <!-- Tipo de publicación -->
+                            <p class="text-white"><strong>Tipo:</strong> <span x-text="newType"></span></p>
+                
+                            <!-- Campo Título -->
+                            <label class="block text-white mt-2">Título:</label>
+                            <input type="text" x-model="newTitle" class="w-full p-2 rounded bg-gray-700 text-white mb-3">
+                
+                            <!-- Campo URL / Archivo -->
+                            <label class="block text-white">URL / Archivo:</label>
+                            <input type="text" x-model="newUrl" class="w-full p-2 rounded bg-gray-700 text-white mb-3">
+                
+                            <hr class="my-2 border-gray-500">
+                            <div class="space-y-2">
+                            <!-- Checkbox: Es el creador? -->
+                            <label class="flex items-center space-x-2 text-white">
+                                <input type="checkbox" x-model="isCreator" class="form-checkbox text-blue-500">
+                                <span>¿Es el creador?</span>
+                            </label>
+                
+                            <!-- Checkbox: Posee derechos de un tercero -->
+                            <label class="flex items-center space-x-2 text-white">
+                                <input type="checkbox" x-model="thirdPartyRights" class="form-checkbox text-blue-500">
+                                <span>¿Posee los derechos de un tercero?</span>
+                            </label>
+                            </div>
+                            <hr class="my-2 border-gray-500">
+                
+                            <!-- Campos adicionales si es el creador -->
+                            <div x-show="isCreator" x-transition.opacity>
+                                <label class="block text-white mt-2">Número de DNDA:</label>
+                                <input type="text" x-model="dndaNumber" class="w-full p-2 rounded bg-gray-700 text-white mb-3">
+                
+                                <label class="block text-white">Nombre de la Composición:</label>
+                                <input type="text" x-model="compositionName" class="w-full p-2 rounded bg-gray-700 text-white mb-3">
+                
+                                <!-- Botón Subir Partitura -->
+                                <div class="mt-2">
+                                    <button @click="sheetUploaded = true" class="bg-gray-500 text-white px-3 py-1 rounded">
+                                        📜 Subir Partitura
+                                    </button>
+                                    <span x-show="sheetUploaded" class="text-green-400 ml-2">✅ Partitura subida</span>
+                                </div>
+                
+                                <!-- Botón Subir Sample -->
+                                <div class="mt-2">
+                                    <button @click="sampleUploaded = true" class="bg-gray-500 text-white px-3 py-1 rounded">
+                                        🎵 Subir Sample
+                                    </button>
+                                    <span x-show="sampleUploaded" class="text-green-400 ml-2">✅ Sample subido</span>
+                                </div>
+                            </div>
+                
+                            <hr class="my-2 border-gray-500">
+                
+                            <!-- Declaración de veracidad -->
+                            <label class="flex items-center space-x-2 text-white mt-2">
+                                <input type="checkbox" x-model="declarationAccepted" class="form-checkbox text-blue-500">
+                                <span>Declaro que los datos ingresados son reales y coinciden con los derechos que poseo.</span>
+                            </label>
+                
+                            <!-- Botón Guardar -->
+                            <button @click="
+                                if(newTitle.trim() === '') {
+                                    Alpine.store('notification').showMessage('⚠️ Debes ingresar un título', 'error');
+                                    return;
+                                }
+                                if (isCreator && !declarationAccepted) {
+                                    Alpine.store('notification').showMessage('⚠️ Debes aceptar la declaración de veracidad', 'error');
+                                    return;
+                                }
+                                $store.content.addContent({ 
+                                    title: newTitle, 
+                                    type: newType, 
+                                    url: newUrl, 
+                                    isCreator, 
+                                    dndaNumber, 
+                                    compositionName, 
+                                    sheetUploaded, 
+                                    sampleUploaded
+                                });
+                                newTitle = ''; newType = ''; newUrl = ''; 
+                                isCreator = false; thirdPartyRights = false; 
+                                dndaNumber = '123456798'; compositionName = ''; 
+                                sheetUploaded = false; sampleUploaded = false; 
+                                declarationAccepted = false; showModal = false;
+                
+                                Alpine.store('notification').showMessage('✅ Publicación agregada con éxito', 'success');
+                                
+                                setTimeout(() => {
+                                    Alpine.store('notification').showMessage('📌 Quedará pendiente de validación, ahora establezca las condiciones de su oferta.', 'info');
+                                }, 1000);
+                            " class="mt-3 w-full bg-green-500 text-white p-2 rounded">Guardar</button>
+                
+                            <!-- Botón Cancelar -->
+                            <button @click="showModal = false" class="mt-3 w-full bg-red-500 text-white p-2 rounded">Cancelar</button>
+                        </div>
                     </div>
                 </div>
+                
+
             </div>
         </nav>
 
