@@ -1,4 +1,28 @@
 document.addEventListener('alpine:init', () => {
+
+    // 🔹 Notificaciones globales
+    Alpine.store('notification', {
+        show: false,
+        message: '',
+        type: '',
+    
+        showMessage(message, type = 'success') {
+            this.message = message;
+            this.type = type;
+            this.show = true;
+    
+            console.log("🔔 Notificación activada:", message);
+    
+            // Asegurar que el modal no se oculte antes de verse
+            Alpine.nextTick(() => {
+                setTimeout(() => {
+                    console.log("🔕 Notificación oculta");
+                    this.show = false;
+                }, 3000);
+            });
+        }
+    });
+    
     Alpine.store('auth', {
         isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
         userData: JSON.parse(localStorage.getItem("user")) || null,
@@ -10,8 +34,9 @@ document.addEventListener('alpine:init', () => {
 
                 this.isLoggedIn = true;
                 this.userData = { email };
+                Alpine.store('notification').showMessage("🔑 Sesión iniciada correctamente", "success");
             } else {
-                alert("Correo o contraseña incorrectos");
+                Alpine.store('notification').showMessage("❌ Correo o contraseña incorrectos", "error");
             }
         },
 
@@ -21,15 +46,17 @@ document.addEventListener('alpine:init', () => {
 
             this.isLoggedIn = false;
             this.userData = null;
+            Alpine.store('notification').showMessage("👋 Sesión cerrada correctamente", "success");
         }
     });
 
-    Alpine.data('cartData', () => ({
+    // 🔹 Almacenar carrito
+    Alpine.store('cart', {
         cart: JSON.parse(localStorage.getItem("cart")) || [],
 
         addToCart(item) {
             if (!Alpine.store('auth').isLoggedIn) {
-                document.querySelector('[x-data]').__x.$data.showLogin = true;
+                Alpine.store('notification').showMessage("⚠️ Debes iniciar sesión para comprar", "error");
                 return;
             }
 
@@ -41,7 +68,7 @@ document.addEventListener('alpine:init', () => {
             }
 
             localStorage.setItem("cart", JSON.stringify(this.cart));
-            alert(`${item.title} agregado al carrito 🛒`);
+            Alpine.store('notification').showMessage(`✅ ${item.title} agregado al carrito 🛒`, "success");
         },
 
         removeFromCart(index) {
@@ -51,12 +78,16 @@ document.addEventListener('alpine:init', () => {
 
         finalizePurchase() {
             if (this.cart.length === 0) {
-                alert("Tu carrito está vacío.");
+                Alpine.store('notification').showMessage("❌ Tu carrito está vacío.", "error");
                 return;
             }
-            window.location.href = "/comprar-derechos.html";
+
+            Alpine.store('notification').showMessage("✅ Redirigiendo a la compra...", "success");
+            setTimeout(() => {
+                window.location.href = "/comprar-derechos.html";
+            }, 2000);
         }
-    }));
+    });
 
     // 🔹 Datos del Contenido Musical
     Alpine.data('contentData', () => ({

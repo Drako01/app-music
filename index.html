@@ -19,6 +19,7 @@
                     showLogin: false, 
                     showOrders: false, 
                     showLyrics: false, 
+                    showProfile: false,
                     currentLyricTitle: '',
                     currentLyricContent: '',
 
@@ -44,42 +45,9 @@
                             })
                             .catch(error => console.error('Error cargando la letra:', error));
                     },
-
-                    // 🔹 Variables y Métodos del Carrito
-                    cart: JSON.parse(localStorage.getItem('cart')) || [],
-
-                    addToCart(item) {
-                        if (!Alpine.store('auth').isLoggedIn) {
-                            this.showLogin = true;
-                            return;
-                        }
-
-                        let existingItem = this.cart.find(cartItem => cartItem.title === item.title);
-                        if (existingItem) {
-                            existingItem.quantity += 1;
-                        } else {
-                            this.cart.push({ ...item, quantity: 1 });
-                        }
-
-                        localStorage.setItem('cart', JSON.stringify(this.cart));
-                        alert(`${item.title} agregado al carrito 🛒`);
-                    },
-
-                    removeFromCart(index) {
-                        this.cart.splice(index, 1);
-                        localStorage.setItem('cart', JSON.stringify(this.cart));
-                    },
-
-                    finalizePurchase() {
-                        if (this.cart.length === 0) {
-                            alert('Tu carrito está vacío.');
-                            return;
-                        }
-                        window.location.href = '/comprar-derechos.html';
-                    }
                 }">
 
-                
+
         <!-- HEADER -->
         <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
             <div class="text-2xl font-bold">🎷Regalías Market</div>
@@ -89,7 +57,71 @@
                 <template x-if="Alpine.store('auth').isLoggedIn">
                     <div class="flex space-x-4">
                         <button @click="showCart = true">🛒 Carrito</button>
-                        <button @click="showOrders = true">📦 Mis Compras</button>
+
+
+                        <!-- Menú desplegable de perfil -->
+                        <div class="relative">
+                            <!-- Botón de Perfil -->
+                            <button @click="showProfile = !showProfile">
+                                👤 Mi Perfil
+                            </button>
+
+
+                            <!-- Menú desplegable -->
+                            <div x-show="showProfile" x-transition.opacity @click.away="showProfile = false"
+                                class="absolute right-0 mt-3 w-80 bg-gray-800 p-6 rounded-lg shadow-lg text-white border border-gray-600 space-y-4 leading-relaxed">
+
+                                <!-- Información del Usuario -->
+                                <p class="text-lg font-semibold text-gray-300">Información del Usuario</p>
+                                <hr class="my-3 border-gray-500">
+                                <p><strong>Nombre:</strong> Juan</p>
+                                <p><strong>Apellido:</strong> Perez</p>
+                                <p><strong>Fecha de Nac:</strong> 10/02/1980</p>
+                                <p><strong>DNI:</strong> 27222666</p>
+                                <p><strong>Domicilio:</strong> Calle 120 N° 2025</p>
+
+                                <hr class="my-3 border-gray-500">
+
+                                <!-- Checkbox de roles -->
+                                <p class="text-lg font-semibold text-gray-300">Usted es Creador/Artista:</p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox text-blue-500 h-5 w-5">
+                                        <span>Letra</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox text-blue-500 h-5 w-5">
+                                        <span>Composición musical</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox text-blue-500 h-5 w-5">
+                                        <span>Interpretación</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox text-blue-500 h-5 w-5">
+                                        <span>Obras completas</span>
+                                    </label>
+                                </div>
+
+                                <hr class="my-3 border-gray-500">
+
+                                <!-- Checkbox de Productor -->
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox text-blue-500 h-5 w-5">
+                                    <span>Usted es Productor</span>
+                                </label>
+
+                                <!-- Botón Mis Compras -->
+                                <button @click="showOrders = true; showProfile = false"
+                                    class="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition">
+                                    📦 Mis Compras
+                                </button>
+
+                            </div>
+                        </div>
+
+
+                        <!-- Botón de Logout -->
                         <button @click="Alpine.store('auth').logout()" class="text-red-500">🚪 Cerrar sesión</button>
                     </div>
                 </template>
@@ -140,9 +172,9 @@
                                 class="mt-2 bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded flex items-center">
                                 ▶ Reproducir
                             </button>
-                            <button @click="addToCart(item)" x-show="Alpine.store('auth').isLoggedIn"
-                                class="mt-2 bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded">
-                                💰 Comprar Derechos
+                            <button @click="Alpine.store('cart').addToCart(item)"
+                                x-show="Alpine.store('auth').isLoggedIn" class="btn bg-gray-500 hover:bg-gray-700">
+                                💰
                             </button>
                         </div>
                     </template>
@@ -227,10 +259,13 @@
                                 🎼
                             </a>
 
-                            <button @click="addToCart(item)" x-show="Alpine.store('auth').isLoggedIn"
-                                class="btn bg-gray-500 hover:bg-gray-700">
+                            <button @click="Alpine.store('cart').addToCart(item)"
+                                x-show="Alpine.store('auth').isLoggedIn" class="btn bg-gray-500 hover:bg-gray-700">
                                 💰
                             </button>
+
+
+
                         </div>
                     </div>
                 </template>
@@ -304,36 +339,42 @@
         <!-- MODALES PARA CARRITO, INGRESAR Y MIS COMPRAS -->
         <!-- MODAL CARRITO -->
         <div x-show="showCart" x-cloak
-            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" x-data="cartData()">
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+
             <div class="bg-gray-800 p-6 rounded-lg w-96 md:w-[450px] text-white relative">
                 <button @click="showCart = false"
                     class="absolute top-2 right-2 text-gray-400 hover:text-white">✖</button>
                 <h2 class="text-xl font-bold mb-4">🛒 Carrito de Compras</h2>
 
                 <!-- LISTA DE PRODUCTOS EN EL CARRITO -->
-                <div>
-                    <template x-for="(item, index) in cart" :key="index">
+                <div x-show="Alpine.store('cart').cart.length > 0" x-transition>
+                    <template x-for="(item, index) in Alpine.store('cart').cart" :key="index">
                         <div class="bg-gray-700 p-3 rounded-lg flex items-center justify-between mt-2">
                             <h3 class="text-lg font-semibold" x-text="item.title"></h3>
                             <p class="text-gray-400 text-sm">💲 <span
                                     x-text="item.price ? item.price.toFixed(2) : '0.00'"></span></p>
                             <p class="text-gray-400 text-sm">🛒 x<span x-text="item.quantity"></span></p>
 
-                            <button @click="removeFromCart(index)"
+                            <button @click="Alpine.store('cart').removeFromCart(index)"
                                 class="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded">
                                 🗑️
                             </button>
+
                         </div>
                     </template>
 
                     <!-- MENSAJE SI EL CARRITO ESTÁ VACÍO -->
-                    <p x-show="cart.length === 0" class="text-gray-400 text-center mt-4">Tu carrito está vacío.</p>
+                    <p x-show="Alpine.store('cart').cart.length === 0" class="text-gray-400 text-center mt-4">Tu carrito
+                        está
+                        vacío.</p>
 
                     <!-- BOTÓN DE FINALIZAR COMPRA -->
-                    <button x-show="cart.length > 0" @click="finalizePurchase()"
+                    <button x-show="Alpine.store('cart').cart.length > 0"
+                        @click="Alpine.store('cart').finalizePurchase()"
                         class="mt-4 bg-green-500 hover:bg-green-700 text-white px-4 py-2 w-full rounded">
                         🏁 Finalizar Compra
                     </button>
+
                 </div>
             </div>
         </div>
@@ -429,11 +470,17 @@
     </div>
 
 
-    <!-- MODALES PARA CARRITO, INGRESAR Y MIS COMPRAS -->
-
-
+    <!-- 🛑 MODAL DE NOTIFICACIÓN -->
+    <div x-data="$store.notification" x-show="show" x-transition.opacity.duration.500ms
+        @keydown.escape.window="show = false"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" style="display: none;">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+            <p class="text-lg font-semibold text-gray-800" x-text="message"></p>
+            <button @click="show = false" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
+                Cerrar
+            </button>
+        </div>
     </div>
-
 
     <script src="/assets/js/script.js"></script>
 
