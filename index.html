@@ -14,14 +14,14 @@
 
 <body class="bg-gray-900 text-white">
     <!-- CONTENEDOR PRINCIPAL DE ALPINE.JS -->
-    <div x-data="{ 
+    <div x-data="{
                     showCart: false, 
                     showLogin: false, 
                     showOrders: false, 
                     showLyrics: false, 
                     currentLyricTitle: '',
                     currentLyricContent: '',
-                    
+
                     orders: [
                         { type: 'Compra', date: '📅 12 Feb 2024' },
                         { type: 'Venta', date: '📅 05 Ene 2024' },
@@ -35,29 +35,74 @@
                             .then(response => response.text())
                             .then(text => {
                                 this.currentLyricTitle = title;
-                                this.currentLyricContent = marked.parse(text); // Convierte Markdown en HTML
+                                this.currentLyricContent = marked.parse(text);
                                 this.showLyrics = true;
 
-                                // Insertar contenido convertido en el modal
                                 setTimeout(() => {
                                     document.getElementById('lyricsContent').innerHTML = this.currentLyricContent;
                                 }, 50);
                             })
                             .catch(error => console.error('Error cargando la letra:', error));
+                    },
+
+                    // 🔹 Variables y Métodos del Carrito
+                    cart: JSON.parse(localStorage.getItem('cart')) || [],
+
+                    addToCart(item) {
+                        if (!Alpine.store('auth').isLoggedIn) {
+                            this.showLogin = true;
+                            return;
+                        }
+
+                        let existingItem = this.cart.find(cartItem => cartItem.title === item.title);
+                        if (existingItem) {
+                            existingItem.quantity += 1;
+                        } else {
+                            this.cart.push({ ...item, quantity: 1 });
+                        }
+
+                        localStorage.setItem('cart', JSON.stringify(this.cart));
+                        alert(`${item.title} agregado al carrito 🛒`);
+                    },
+
+                    removeFromCart(index) {
+                        this.cart.splice(index, 1);
+                        localStorage.setItem('cart', JSON.stringify(this.cart));
+                    },
+
+                    finalizePurchase() {
+                        if (this.cart.length === 0) {
+                            alert('Tu carrito está vacío.');
+                            return;
+                        }
+                        window.location.href = '/comprar-derechos.html';
                     }
                 }">
+
+
 
 
         <!-- HEADER -->
         <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
             <div class="text-2xl font-bold">🎷Regalías Market</div>
-            <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
+
             <div class="flex space-x-4">
-                <button @click="showCart = true">🛒 Carrito</button>
-                <button @click="showLogin = true">🔑 Ingresar</button>
-                <button @click="showOrders = true">📦 Mis Compras</button>
+                <!-- Si está logueado, muestra Carrito, Mis Compras y Logout -->
+                <template x-if="Alpine.store('auth').isLoggedIn">
+                    <div class="flex space-x-4">
+                        <button @click="showCart = true">🛒 Carrito</button>
+                        <button @click="showOrders = true">📦 Mis Compras</button>
+                        <button @click="Alpine.store('auth').logout()" class="text-red-500">🚪 Cerrar sesión</button>
+                    </div>
+                </template>
+
+                <!-- Si NO está logueado, solo muestra "Ingresar" -->
+                <template x-if="!Alpine.store('auth').isLoggedIn">
+                    <button @click="showLogin = true">🔑 Ingresar</button>
+                </template>
             </div>
         </header>
+
 
         <!-- HERO CON EFECTO PARALLAX -->
         <section class="relative h-[500px] flex items-center justify-center text-center bg-fixed bg-cover bg-center"
@@ -78,9 +123,9 @@
                     { title: 'Romantic Hope - Delicate Cinematic Orchestral', type: 'Composición', image: '/assets/img/composicion2.jpg', audio: '/assets/music/composicion02.mp3' },
                     { title: 'A Short Acoustic Guitar Love Song', type: 'Canción', image: '/assets/img/cancion3.webp', audio: '/assets/music/cancion03.mp3' }
                 ],
-        next() { this.active = (this.active + 1) % this.items.length },
-        prev() { this.active = (this.active - 1 + this.items.length) % this.items.length }
-    }" x-init="setInterval(() => next(), 3000)">
+                    next() { this.active = (this.active + 1) % this.items.length },
+                    prev() { this.active = (this.active - 1 + this.items.length) % this.items.length }
+                }" x-init="setInterval(() => next(), 3000)">
             <h2 class="text-xl font-bold mb-2">Últimos Incorporados</h2>
 
             <div class="relative w-full max-w-3xl mx-auto overflow-hidden">
@@ -93,11 +138,11 @@
                                 class="w-full h-80 object-cover rounded-lg">
                             <h3 class="text-lg font-semibold mt-2" x-text="item.title"></h3>
                             <p class="text-gray-400 text-sm" x-text="item.type"></p>
-                            <button @click="playAudio(item.audio)"
+                            <button @click="playAudio(item.audio)" x-show="Alpine.store('auth').isLoggedIn"
                                 class="mt-2 bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded flex items-center">
                                 ▶ Reproducir
                             </button>
-                            <button @click="comprarDerechos(item)"
+                            <button @click="addToCart(item)" x-show="Alpine.store('auth').isLoggedIn"
                                 class="mt-2 bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded">
                                 💰 Comprar Derechos
                             </button>
@@ -152,7 +197,7 @@
         <section class="p-6" x-data="contentData()">
             <h2 class="text-2xl font-bold mb-4">🎼 Descubre Más Música</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            <div>
                 <template x-for="(item, index) in contentList" :key="index">
                     <div class="flex justify-between items-center bg-gray-800 p-4 rounded-lg shadow-md">
                         <div>
@@ -160,44 +205,41 @@
                             <p class="text-gray-400 text-sm" x-text="item.type"></p>
                         </div>
 
+                        <!-- Este div debe aparecer SIEMPRE, pero solo mostrará los botones si está logueado -->
                         <div class="flex flex-wrap items-center gap-2">
-                            <!-- Botón de reproducción para canciones y composiciones -->
-                            <button x-show="item.type === 'Canción' || item.type === 'Composición'"
+                            <button
+                                x-show="Alpine.store('auth').isLoggedIn && (item.type === 'Canción' || item.type === 'Composición')"
                                 @click="playAudio(item.audio)" class="btn bg-green-500 hover:bg-green-700">
                                 ▶
                             </button>
 
-                            <!-- Ícono para ver letras de canciones -->
-                            <a x-show="item.type === 'Letra'" href="#" @click.prevent="loadLyrics(item.title, item.url)"
+                            <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Letra'"
+                                @click.prevent="loadLyrics(item.title, item.url)"
                                 class="btn bg-yellow-500 hover:bg-yellow-700">
                                 📜
                             </a>
 
-                            <!-- Botón para acceder al perfil del compositor -->
-                            <a x-show="item.type === 'Compositor'" :href="item.url"
+                            <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Compositor'" :href="item.url"
                                 class="btn bg-blue-500 hover:bg-blue-700">
                                 <i class="fas fa-user"></i>
                             </a>
 
-                            <!-- Ícono para visualizar partituras -->
-                            <a x-show="item.type === 'Partitura'" :href="item.image" target="_blank"
-                                class="btn bg-purple-500 hover:bg-purple-700">
+                            <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Partitura'" :href="item.image"
+                                target="_blank" class="btn bg-purple-500 hover:bg-purple-700">
                                 🎼
                             </a>
 
-                            <!-- Botón Comprar Derechos -->
-                            <button @click="comprarDerechos(item)" class="btn bg-gray-500 hover:bg-gray-700">
+                            <button @click="addToCart(item)" x-show="Alpine.store('auth').isLoggedIn"
+                                class="btn bg-gray-500 hover:bg-gray-700">
                                 💰
                             </button>
                         </div>
                     </div>
                 </template>
             </div>
-
-
-            <!-- AUDIO PLAYER (OCULTO) -->
-            <audio id="audioPlayer" class="hidden"></audio>
         </section>
+
+
 
         <!-- FOOTER -->
         <footer class="bg-gray-800 text-gray-300 p-6 mt-10">
@@ -261,63 +303,62 @@
         </footer>
 
 
-
         <!-- MODALES PARA CARRITO, INGRESAR Y MIS COMPRAS -->
         <!-- MODAL CARRITO -->
         <div x-show="showCart" x-cloak
-            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" x-data="cartData()">
             <div class="bg-gray-800 p-6 rounded-lg w-96 md:w-[450px] text-white relative">
                 <button @click="showCart = false"
                     class="absolute top-2 right-2 text-gray-400 hover:text-white">✖</button>
                 <h2 class="text-xl font-bold mb-4">🛒 Carrito de Compras</h2>
 
-                <!-- LISTA DE COMPRAS -->
-                <div x-data="{ cart: [
-                                { id: 1, title: 'Groovy Ambient Funk', price: 9.99, quantity: 1, image: '/assets/img/cancion1.webp' },
-                                { id: 2, title: 'Romantic Hope - Cinematic Orchestral', price: 14.99, quantity: 1, image: '/assets/img/composicion1.jpg' }
-                            ] }">
-
-                    <template x-for="(item, index) in cart" :key="item.id">
+                <!-- LISTA DE PRODUCTOS EN EL CARRITO -->
+                <div>
+                    <template x-for="(item, index) in cart" :key="index">
                         <div class="bg-gray-700 p-3 rounded-lg flex items-center justify-between mt-2">
-                            <img :src="item.image" alt="Producto" class="w-12 h-12 rounded">
+                            <h3 class="text-lg font-semibold" x-text="item.title"></h3>
+                            <p class="text-gray-400 text-sm">💲 <span
+                                    x-text="item.price ? item.price.toFixed(2) : '0.00'"></span></p>
+                            <p class="text-gray-400 text-sm">🛒 x<span x-text="item.quantity"></span></p>
 
-                            <div class="flex-1 ml-3">
-                                <h3 class="text-lg font-semibold" x-text="item.title"></h3>
-                                <p class="text-gray-400 text-sm">💲 <span x-text="item.price.toFixed(2)"></span> | 🛒
-                                    x<span x-text="item.quantity"></span></p>
-                            </div>
-
-                            <button @click="cart.splice(index, 1)"
+                            <button @click="removeFromCart(index)"
                                 class="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded">
                                 🗑️
                             </button>
                         </div>
                     </template>
 
-                    <!-- MENSAJE SI NO HAY PRODUCTOS -->
+                    <!-- MENSAJE SI EL CARRITO ESTÁ VACÍO -->
                     <p x-show="cart.length === 0" class="text-gray-400 text-center mt-4">Tu carrito está vacío.</p>
 
                     <!-- BOTÓN DE FINALIZAR COMPRA -->
-                    <button x-show="cart.length > 0" @click="showCart = false"
+                    <button x-show="cart.length > 0" @click="finalizePurchase()"
                         class="mt-4 bg-green-500 hover:bg-green-700 text-white px-4 py-2 w-full rounded">
                         🏁 Finalizar Compra
                     </button>
-
                 </div>
             </div>
         </div>
 
 
         <!-- MODAL INGRESAR -->
-        <div x-show="showLogin" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div x-show="showLogin" x-cloak
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+            x-data="{ email: '', password: '' }">
             <div class="bg-gray-800 p-6 rounded-lg w-96 text-white relative">
                 <button @click="showLogin = false"
                     class="absolute top-2 right-2 text-gray-400 hover:text-white">✖</button>
                 <h2 class="text-xl font-bold mb-4">🔑 Iniciar Sesión</h2>
-                <p>Ingresa con tu cuenta para continuar.</p>
-                <input type="text" placeholder="Correo electrónico" class="w-full p-2 mt-3 bg-gray-700 rounded">
-                <input type="password" placeholder="Contraseña" class="w-full p-2 mt-3 bg-gray-700 rounded">
-                <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">Ingresar</button>
+
+                <input type="text" x-model="email" placeholder="Correo electrónico"
+                    class="w-full p-2 mt-3 bg-gray-700 rounded">
+                <input type="password" x-model="password" placeholder="Contraseña"
+                    class="w-full p-2 mt-3 bg-gray-700 rounded">
+
+                <button @click="Alpine.store('auth').login(email, password); showLogin = false"
+                    class="mt-4 bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">
+                    Ingresar
+                </button>
             </div>
         </div>
 
@@ -368,11 +409,10 @@
         <!-- MODALES PARA CARRITO, INGRESAR Y MIS COMPRAS -->
 
         <!-- MODAL PARA LETRAS DE CANCIONES -->
-        <div x-show="showLyrics" x-cloak 
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+        <div x-show="showLyrics" x-cloak
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
 
-            <div
-                class="bg-[#fdfdfd] p-8 rounded-lg w-[90%] md:w-[600px] 
+            <div class="bg-[#fdfdfd] p-8 rounded-lg w-[90%] md:w-[600px] 
                 text-black relative max-h-[80vh] overflow-y-auto shadow-lg ">
                 <!-- Botón para cerrar -->
                 <button @click="showLyrics = false"
@@ -386,8 +426,7 @@
                 <div id="lyricsContent" class="prose max-w-none text-gray-800 leading-relaxed"></div>
             </div>
         </div>
-
-
+        <!-- MODAL PARA LETRAS DE CANCIONES -->
 
     </div>
 
