@@ -200,17 +200,21 @@
                 <a href="#" class="text-yellow-400">✍️ Letras</a>
                 <a href="#" class="text-yellow-400">🎤 Interpretaciones</a>
                 <a href="#" class="text-yellow-400">📜 Obras Completas</a>
+
                 <!-- Menú desplegable -->
                 <div class="relative inline-block" x-data="{ open: false }">
-                    <button @click="open = !open" class="text-yellow-400">➕ Más</button>
-                    <div x-show="open" class="absolute bg-gray-700 p-2 mt-2 rounded shadow-lg min-w-48">
-                        <a href="#" class="block px-4 py-2">🎧 Productores</a>
-                        <a href="#" class="block px-4 py-2">📀 Discos</a>
-                        <a href="#" class="block px-4 py-2">🎬 Videoclips</a>
+                    <button @click="open = !open" @click.away="open = false" class="text-yellow-400">➕ Más</button>
+                    <div x-show="open" x-transition.opacity
+                        class="absolute bg-gray-700 p-2 mt-2 rounded shadow-lg min-w-72">
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-600 rounded">✍️ Publicar Letra</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-600 rounded">🎼 Publicar Composición</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-600 rounded">🎤 Publicar Interpretación</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-600 rounded">📜 Publicar Obra Completa</a>
                     </div>
                 </div>
             </div>
         </nav>
+
 
         <!-- CONTENIDO ALEATORIO -->
         <section class="p-4">
@@ -271,7 +275,6 @@
                 </template>
             </div>
         </section>
-
 
 
         <!-- FOOTER -->

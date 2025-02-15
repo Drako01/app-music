@@ -89,9 +89,8 @@ document.addEventListener('alpine:init', () => {
         }
     });
 
-    // 🔹 Datos del Contenido Musical
-    Alpine.data('contentData', () => ({
-        contentList: [
+    Alpine.store('content', {
+        contentList: JSON.parse(localStorage.getItem("contentList")) || [
             { title: "Groovy Ambient Funk", type: "Canción", audio: "/assets/music/cancion01.mp3" },
             { title: "Letras de Amor", type: "Letra", url: "/assets/letters/letra1.md" },
             { title: "Juan Pérez", type: "Compositor", url: "#perfil1" },
@@ -114,11 +113,25 @@ document.addEventListener('alpine:init', () => {
             { title: "Partitura - Zen Meditation", type: "Partitura", image: "/assets/img/partitura.jpeg" }
         ],
 
+        saveToLocalStorage() {
+            localStorage.setItem("contentList", JSON.stringify(this.contentList));
+        },
+
+        addContent(newContent) {
+            this.contentList.push(newContent);
+            this.saveToLocalStorage();
+        }
+    });
+
+    // 🔹 Datos del Contenido Musical
+    Alpine.data('contentData', () => ({
+        contentList: Alpine.store('content').contentList,
+
         playAudio(audioSrc) {
             let player = document.getElementById("audioPlayer");
             player.src = audioSrc;
             player.play();
-        },
-
+        }
     }));
+    
 });
