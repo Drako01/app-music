@@ -1,0 +1,19 @@
+<!-- Documento adjunto -->
+        <div class="mt-2 flex flex-end justify-between border border-gray-300 p-2 rounded-md box-firmas encolumna">
+            <span class="text-gray-800">contrato_derechos.pdf</span>
+
+            <div class="flex flex-col items-end h-full ">
+                <a href="#" id="openModal" class="text-blue-600 hover:underline flex mt-auto">
+                    Firme aquí <span class="ml-1">✍️</span>
+                </a>
+            </div>
+
+            <div class="flex items-end encolumna">
+                <img src="assets/img/sellos.png" alt="" class="sello">
+                <img src="assets/img/blockchain.png" alt="" class="sello">
+            </div>
+
+        </div>
+        <div class="flex items-center justify-center my-4">
+            <img src="assets/img/tiempo.png" alt="" class="sello-tiempo">
+        </div>

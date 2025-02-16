@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // ✅ Redirige después de 2.5 segundos
         setTimeout(() => {
-            window.location.href = "clientes-felices.html";
+            window.location.href = "blockchain.html";
         }, 2500);
     });
 

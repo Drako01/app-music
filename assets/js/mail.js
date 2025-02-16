@@ -14,7 +14,7 @@ if (window.Alpine) {
                 this.show = false;
                 // ✅ Esperamos 1/2 segundo más antes de redirigir
                 setTimeout(() => {
-                    window.location.href = "contrato-generado.html";
+                    window.location.href = "seleccion.html";
                 }, 500);
             }, 2000);
         },
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("firmarBtn").addEventListener("click", function () {
-        console.log("🖊️ Botón de firma presionado");
+        
 
         document.getElementById("firmaModal").classList.add("hidden"); // Cierra el modal
 
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             if (window.Alpine && Alpine.store("notification")) {
                 console.log("✅ Mostrando mensaje de notificación...");
-                Alpine.store("notification").showMessage("✅ Usted aceptó las condiciones. Generando contrato...");
+                Alpine.store("notification").showMessage("✅ Redirigigendo a Escribano Digital para Logueo. Aguarde...");
             } else {
                 console.error("❌ Error: Alpine Store 'notification' no está disponible");
             }

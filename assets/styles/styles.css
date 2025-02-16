@@ -45,6 +45,13 @@ body::-webkit-scrollbar {
     height: 14rem;
 }
 
+.sello-block{
+
+    width: 600px !important;
+}
+.firma-with{
+    width: 100% !important;
+}
 @media screen and (max-width: 768px) {
     .header-index {
         flex-direction: column !important;
