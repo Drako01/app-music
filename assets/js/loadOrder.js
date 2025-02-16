@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cart.forEach(element => {
             // Crear un contenedor div para cada item y su tabla
             const div = document.createElement('div');
-            div.classList.add("flex", "items-center", "justify-between", "mb-4");
+            div.classList.add("flex", "items-center", "justify-between", "mb-4" , "encolumna");
 
             // Crear el elemento <li>
             const li = document.createElement('li');
