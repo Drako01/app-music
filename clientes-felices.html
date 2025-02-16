@@ -15,92 +15,98 @@
 <body class="bg-gray-900 text-white">
 
     <!-- HEADER HARDCODEADO-->
-    <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
-        <div class="text-2xl font-bold">🎷Regalías Market</div>
-        <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
-        <div class="flex space-x-4">
+    <header
+        class="bg-gray-800 p-4 flex flex-col md:flex-row justify-between items-start md:items-center fixed top-0 w-full z-10">
+        <div class="text-2xl font-bold p-2">🎷Regalías Market</div>
+
+        <!-- Ocultar en móviles, mostrar en pantallas medianas y grandes -->
+        <input type="text" placeholder="Buscar música, compositores..."
+            class="hidden md:block p-2 rounded-md w-1/3 text-black">
+
+        <!-- Contenedor de los enlaces -->
+        <div
+            class="flex flex-col md:flex-row w-full md:w-auto items-start md:items-center space-y-2 md:space-y-0 md:space-x-4 mt-2 md:mt-0">
             <!-- Siempre muestra Carrito, Mis Compras y Logout -->
-            <div class="flex space-x-4">
-                <a href="index.html">🛒 Carrito</a>
-                <!-- Menú desplegable de perfil -->
-                <div class="relative">
-                    <!-- Botón de Perfil -->
-                    <a href="index.html">👤 Mi Perfil</a>
-                </div>
-                <!-- Botón de Logout -->
-                <a href="index.html" class="text-red-500">🚪 Cerrar sesión</a>
+            <a href="index.html" class="w-full md:w-auto p-2">🛒 Carrito</a>
+
+            <!-- Menú desplegable de perfil -->
+            <div class="relative w-full md:w-auto p-2">
+                <a href="index.html">👤 Mi Perfil</a>
             </div>
+
+            <!-- Botón de Logout -->
+            <a href="index.html" class="text-red-500 w-full md:w-auto p-2">🚪 Cerrar sesión</a>
         </div>
     </header>
 
+    <div class="body">
+        <div
+            class="container mx-auto mt-12 p-12 border border-gray-700 rounded-lg bg-gray-800 text-white text-center order">
 
-    <div
-        class="container mx-auto mt-12 p-12 border border-gray-700 rounded-lg bg-gray-800 text-white text-center order">
+            <!-- Título -->
+            <h1 class="text-2xl font-semibold mb-8">Clientes Felices</h1>
 
-        <!-- Título -->
-        <h1 class="text-2xl font-semibold mb-8">Clientes Felices</h1>
+            <!-- Sección de clientes -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        <!-- Sección de clientes -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cliente 1 -->
+                <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
+                    <img src="assets/img/cliente1.jpg" alt="Cliente 1" class="w-24 h-24 mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-semibold">Juan Pérez</h3>
+                    <p class="text-gray-300">🎵 Adquirió: "Licencia de Beat Exclusiva"</p>
+                    <p class="text-green-400 font-bold">💰 Regalías: $223,500/mes</p>
+                </div>
 
-            <!-- Cliente 1 -->
-            <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
-                <img src="assets/img/cliente1.jpg" alt="Cliente 1" class="w-24 h-24 mx-auto rounded-full mb-4">
-                <h3 class="text-xl font-semibold">Juan Pérez</h3>
-                <p class="text-gray-300">🎵 Adquirió: "Licencia de Beat Exclusiva"</p>
-                <p class="text-green-400 font-bold">💰 Regalías: $223,500/mes</p>
+                <!-- Cliente 2 -->
+                <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
+                    <img src="assets/img/cliente2.jpg" alt="Cliente 2" class="w-24 h-24 mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-semibold">María López</h3>
+                    <p class="text-gray-300">🎼 Adquirió: "Derechos de Composición"</p>
+                    <p class="text-green-400 font-bold">💰 Regalías: $681,800/mes</p>
+                </div>
+
+                <!-- Cliente 3 -->
+                <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
+                    <img src="assets/img/cliente3.jpg" alt="Cliente 3" class="w-24 h-24 mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-semibold">Carlos Méndez</h3>
+                    <p class="text-gray-300">🎤 Adquirió: "Licencia de Interpretación"</p>
+                    <p class="text-green-400 font-bold">💰 Regalías: $315,200/mes</p>
+                </div>
+
+                <!-- Cliente 4 -->
+                <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
+                    <img src="assets/img/cliente4.jpg" alt="Cliente 4" class="w-24 h-24 mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-semibold">Laura Gómez</h3>
+                    <p class="text-gray-300">📜 Adquirió: "Obras Completas"</p>
+                    <p class="text-green-400 font-bold">💰 Regalías: $452,100/mes</p>
+                </div>
+
+                <!-- Cliente 5 -->
+                <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
+                    <img src="assets/img/cliente5.jpg" alt="Cliente 5" class="w-24 h-24 mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-semibold">Fernando Torres</h3>
+                    <p class="text-gray-300">🎶 Adquirió: "Licencia de Distribución"</p>
+                    <p class="text-green-400 font-bold">💰 Regalías: $622,800/mes</p>
+                </div>
+
+                <!-- Cliente 6 (Nuevo) -->
+                <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
+                    <img src="assets/img/cliente6.jpg" alt="Cliente 6" class="w-24 h-24 mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-semibold">Sofía Ramírez</h3>
+                    <p class="text-gray-300">🎧 Adquirió: "Masterización y Producción"</p>
+                    <p class="text-green-400 font-bold">💰 Regalías: $433,500/mes</p>
+                </div>
+
             </div>
 
-            <!-- Cliente 2 -->
-            <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
-                <img src="assets/img/cliente2.jpg" alt="Cliente 2" class="w-24 h-24 mx-auto rounded-full mb-4">
-                <h3 class="text-xl font-semibold">María López</h3>
-                <p class="text-gray-300">🎼 Adquirió: "Derechos de Composición"</p>
-                <p class="text-green-400 font-bold">💰 Regalías: $681,800/mes</p>
-            </div>
-
-            <!-- Cliente 3 -->
-            <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
-                <img src="assets/img/cliente3.jpg" alt="Cliente 3" class="w-24 h-24 mx-auto rounded-full mb-4">
-                <h3 class="text-xl font-semibold">Carlos Méndez</h3>
-                <p class="text-gray-300">🎤 Adquirió: "Licencia de Interpretación"</p>
-                <p class="text-green-400 font-bold">💰 Regalías: $315,200/mes</p>
-            </div>
-
-            <!-- Cliente 4 -->
-            <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
-                <img src="assets/img/cliente4.jpg" alt="Cliente 4" class="w-24 h-24 mx-auto rounded-full mb-4">
-                <h3 class="text-xl font-semibold">Laura Gómez</h3>
-                <p class="text-gray-300">📜 Adquirió: "Obras Completas"</p>
-                <p class="text-green-400 font-bold">💰 Regalías: $452,100/mes</p>
-            </div>
-
-            <!-- Cliente 5 -->
-            <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
-                <img src="assets/img/cliente5.jpg" alt="Cliente 5" class="w-24 h-24 mx-auto rounded-full mb-4">
-                <h3 class="text-xl font-semibold">Fernando Torres</h3>
-                <p class="text-gray-300">🎶 Adquirió: "Licencia de Distribución"</p>
-                <p class="text-green-400 font-bold">💰 Regalías: $622,800/mes</p>
-            </div>
-
-            <!-- Cliente 6 (Nuevo) -->
-            <div class="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
-                <img src="assets/img/cliente6.jpg" alt="Cliente 6" class="w-24 h-24 mx-auto rounded-full mb-4">
-                <h3 class="text-xl font-semibold">Sofía Ramírez</h3>
-                <p class="text-gray-300">🎧 Adquirió: "Masterización y Producción"</p>
-                <p class="text-green-400 font-bold">💰 Regalías: $433,500/mes</p>
-            </div>
+            <!-- Botón de volver a inicio -->
+            <button id="volverInicio"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mt-8 block text-center w-80 mx-auto">
+                Volver a Inicio
+            </button>
 
         </div>
-
-        <!-- Botón de volver a inicio -->
-        <button id="volverInicio"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mt-8 block text-center w-80 mx-auto">
-            Volver a Inicio
-        </button>
-
     </div>
-
 
     <!-- FOOTER -->
     <footer class="bg-gray-800 text-gray-300 p-6 mt-10">

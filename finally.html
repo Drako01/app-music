@@ -16,73 +16,79 @@
 <body class="bg-gray-900 text-white">
 
     <!-- HEADER HARDCODEADO-->
-    <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
-        <div class="text-2xl font-bold">🎷Regalías Market</div>
-        <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
-        <div class="flex space-x-4">
+    <header
+        class="bg-gray-800 p-4 flex flex-col md:flex-row justify-between items-start md:items-center fixed top-0 w-full z-10">
+        <div class="text-2xl font-bold p-2">🎷Regalías Market</div>
+
+        <!-- Ocultar en móviles, mostrar en pantallas medianas y grandes -->
+        <input type="text" placeholder="Buscar música, compositores..."
+            class="hidden md:block p-2 rounded-md w-1/3 text-black">
+
+        <!-- Contenedor de los enlaces -->
+        <div
+            class="flex flex-col md:flex-row w-full md:w-auto items-start md:items-center space-y-2 md:space-y-0 md:space-x-4 mt-2 md:mt-0">
             <!-- Siempre muestra Carrito, Mis Compras y Logout -->
-            <div class="flex space-x-4">
-                <a href="index.html">🛒 Carrito</a>
-                <!-- Menú desplegable de perfil -->
-                <div class="relative">
-                    <!-- Botón de Perfil -->
-                    <a href="index.html">👤 Mi Perfil</a>
-                </div>
-                <!-- Botón de Logout -->
-                <a href="index.html" class="text-red-500">🚪 Cerrar sesión</a>
+            <a href="index.html" class="w-full md:w-auto p-2">🛒 Carrito</a>
+
+            <!-- Menú desplegable de perfil -->
+            <div class="relative w-full md:w-auto p-2">
+                <a href="index.html">👤 Mi Perfil</a>
             </div>
+
+            <!-- Botón de Logout -->
+            <a href="index.html" class="text-red-500 w-full md:w-auto p-2">🚪 Cerrar sesión</a>
         </div>
     </header>
 
 
-
-    <div class="container mx-auto mt-12 p-12 
+    <div class="body">
+        <div class="container mx-auto mt-12 p-12 
         border border-gray-700 rounded-lg bg-gray-800 text-white text-center order">
 
-        <!-- Título -->
-        <h1 class="text-2xl font-semibold mb-8">Aceptación final y firma de Contrato</h1>
+            <!-- Título -->
+            <h1 class="text-2xl font-semibold mb-8">Aceptación final y firma de Contrato</h1>
 
-        <!-- Subtítulo -->
-        <p class="mb-6 text-lg">
-            <span class="text-green-400 font-semibold">Usted de buena fé seleccionó</span>
-        </p>
+            <!-- Subtítulo -->
+            <p class="mb-6 text-lg">
+                <span class="text-green-400 font-semibold">Usted de buena fé seleccionó</span>
+            </p>
 
-        <p class="mb-8 text-lg">
-            Cuadro de la oferta cargada por el <span class="text-green-400 font-semibold">sesionante</span>
-        </p>
+            <p class="mb-8 text-lg">
+                Cuadro de la oferta cargada por el <span class="text-green-400 font-semibold">sesionante</span>
+            </p>
 
 
-        <pre>
+            <pre>
             <ul id="listaComprada"></ul>
         </pre>
 
-        <!-- Botón con más espacio -->
-        <section id="aceptado">
-            <p class="mb-6 text-lg font-semibold">Debe Aceptar las condiciones para generar contrato de cesión de <a
-                    href="#" class="underline">derechos</a>.</p>
-            <button id="btnAceptarLegal"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mb-12 w-80">
-                Aceptar
-            </button>
-        </section>
+            <!-- Botón con más espacio -->
+            <section id="aceptado">
+                <p class="mb-6 text-lg font-semibold">Debe Aceptar las condiciones para generar contrato de cesión de <a
+                        href="#" class="underline">derechos</a>.</p>
+                <button id="btnAceptarLegal"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mb-12 w-80">
+                    Aceptar
+                </button>
+            </section>
 
-        <section id="section-mail" class="hidden">
-            <p class="mb-6 text-lg font-semibold">Usted Aceptó condiciones para generar contrato de cesión de <a
-                href="#" class="underline">derechos</a>.</p>
-            <!-- Imagen con más espacio -->
-            <div class="flex justify-center mb-10">
-                <img src="assets/img/documento.png" alt="Documento Seguro - Escribano Digital"
-                    class="w-1/2 border border-gray-600 rounded-lg">
-            </div>
+            <section id="section-mail" class="hidden">
+                <p class="mb-6 text-lg font-semibold">Usted Aceptó condiciones para generar contrato de cesión de <a
+                        href="#" class="underline">derechos</a>.</p>
+                <!-- Imagen con más espacio -->
+                <div class="flex justify-center mb-10">
+                    <img src="assets/img/documento.png" alt="Documento Seguro - Escribano Digital"
+                        class="w-1/2 border border-gray-600 rounded-lg">
+                </div>
 
-            <!-- Leyenda con más margen -->
-            <button id="irAMail">
-                <p class="mt-8 text-gray-300 text-xl">📧 Abrimos el correo</p>
-            </button>
-        </section>
+                <!-- Leyenda con más margen -->
+                <button id="irAMail">
+                    <p class="mt-8 text-gray-300 text-xl">📧 Abrimos el correo</p>
+                </button>
+            </section>
 
+        </div>
     </div>
-
 
     <!-- FOOTER -->
     <footer class="bg-gray-800 text-gray-300 p-6 mt-10">

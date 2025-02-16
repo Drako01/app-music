@@ -15,81 +15,87 @@
 <body class="bg-gray-900 text-white">
 
     <!-- HEADER HARDCODEADO-->
-    <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
-        <div class="text-2xl font-bold">🎷Regalías Market</div>
-        <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
-        <div class="flex space-x-4">
+    <header
+        class="bg-gray-800 p-4 flex flex-col md:flex-row justify-between items-start md:items-center fixed top-0 w-full z-10">
+        <div class="text-2xl font-bold p-2">🎷Regalías Market</div>
+
+        <!-- Ocultar en móviles, mostrar en pantallas medianas y grandes -->
+        <input type="text" placeholder="Buscar música, compositores..."
+            class="hidden md:block p-2 rounded-md w-1/3 text-black">
+
+        <!-- Contenedor de los enlaces -->
+        <div
+            class="flex flex-col md:flex-row w-full md:w-auto items-start md:items-center space-y-2 md:space-y-0 md:space-x-4 mt-2 md:mt-0">
             <!-- Siempre muestra Carrito, Mis Compras y Logout -->
-            <div class="flex space-x-4">
-                <a href="index.html">🛒 Carrito</a>
-                <!-- Menú desplegable de perfil -->
-                <div class="relative">
-                    <!-- Botón de Perfil -->
-                    <a href="index.html">👤 Mi Perfil</a>
-                </div>
-                <!-- Botón de Logout -->
-                <a href="index.html" class="text-red-500">🚪 Cerrar sesión</a>
+            <a href="index.html" class="w-full md:w-auto p-2">🛒 Carrito</a>
+
+            <!-- Menú desplegable de perfil -->
+            <div class="relative w-full md:w-auto p-2">
+                <a href="index.html">👤 Mi Perfil</a>
             </div>
+
+            <!-- Botón de Logout -->
+            <a href="index.html" class="text-red-500 w-full md:w-auto p-2">🚪 Cerrar sesión</a>
         </div>
     </header>
 
+    <div class="body">
+        <div class="container mx-auto mt-8 p-8 order">
+            <h1 class="text-xl font-semibold text-center mb-4 ">Mail</h1>
+            <div class="container mx-auto mt-8 p-8 w-full">
+                <img src="assets/img/encabezado.png" alt="" class="w-full">
+                <img src="assets/img/parte1.png" alt="" class="w-full">
+                <img src="assets/img/parte2.png" alt="" class="w-full">
+                <img src="assets/img/parte3.png" alt="" class="w-full">
+                <img src="assets/img/parte4.png" alt="" class="w-full">
 
-    <div class="container mx-auto mt-8 p-8 order">
-        <h1 class="text-xl font-semibold text-center mb-4 ">Mail</h1>
-        <div class="container mx-auto mt-8 p-8 w-full">
-            <img src="assets/img/encabezado.png" alt="" class="w-full">
-            <img src="assets/img/parte1.png" alt="" class="w-full">
-            <img src="assets/img/parte2.png" alt="" class="w-full">
-            <img src="assets/img/parte3.png" alt="" class="w-full">
-            <img src="assets/img/parte4.png" alt="" class="w-full">
-
-            <!-- Encabezado -->
-            <div class="bg-green-700 text-white font-bold px-4 py-2 rounded-md">
-                Enviado por <span class="font-semibold">Regalias Market</span>
-            </div>
-            <!-- Sección de convocados -->
-            <div class="mt-4 bg-green-700 text-white font-bold px-4 py-3 rounded-md">
-                <p class="mb-2">Convocados para la firma del presente documento:</p>
-                <ol class="list-decimal list-inside space-y-1 font-normal">
-                    <li>Juan Perez</li>
-                    <li>Otro Firmante</li>
-                    <li><span class="font-semibold">Escribano:</span> Edgardo Seguro</li>
-                </ol>
-            </div>
-            <!-- Sección de documentos adjuntos -->
-            <div class="mt-4 p-4 bg-white border border-gray-300 rounded-md">
-                <p class="font-bold">
-                    <span class="italic">Documento/s</span> Adjuntos para su firma.
-                </p>
-
-                <!-- Documento adjunto -->
-                <div class="mt-2 flex flex-end justify-between border border-gray-300 p-2 rounded-md box-firmas">
-                    <span class="text-gray-800">contrato_derechos.pdf</span>
-
-                    <div class="flex flex-col items-end h-full ">
-                        <a href="#" id="openModal" class="text-blue-600 hover:underline flex mt-auto">
-                            Firme aquí <span class="ml-1">✍️</span>
-                        </a>
-                    </div>
-
-                    <div class="flex items-end">
-                        <img src="assets/img/sellos.png" alt="" class="sello">
-                        <img src="assets/img/blockchain.png" alt="" class="sello">
-                    </div>
-
+                <!-- Encabezado -->
+                <div class="bg-green-700 text-white font-bold px-4 py-2 rounded-md">
+                    Enviado por <span class="font-semibold">Regalias Market</span>
                 </div>
-                <div class="flex items-center justify-center my-4">
-                    <img src="assets/img/tiempo.png" alt="" class="sello-tiempo">
+                <!-- Sección de convocados -->
+                <div class="mt-4 bg-green-700 text-white font-bold px-4 py-3 rounded-md">
+                    <p class="mb-2">Convocados para la firma del presente documento:</p>
+                    <ol class="list-decimal list-inside space-y-1 font-normal">
+                        <li>Juan Perez</li>
+                        <li>Otro Firmante</li>
+                        <li><span class="font-semibold">Escribano:</span> Edgardo Seguro</li>
+                    </ol>
                 </div>
-            </div>
+                <!-- Sección de documentos adjuntos -->
+                <div class="mt-4 p-4 bg-white border border-gray-300 rounded-md">
+                    <p class="font-bold">
+                        <span class="italic">Documento/s</span> Adjuntos para su firma.
+                    </p>
 
+                    <!-- Documento adjunto -->
+                    <div class="mt-2 flex flex-end justify-between border border-gray-300 p-2 rounded-md box-firmas">
+                        <span class="text-gray-800">contrato_derechos.pdf</span>
+
+                        <div class="flex flex-col items-end h-full ">
+                            <a href="#" id="openModal" class="text-blue-600 hover:underline flex mt-auto">
+                                Firme aquí <span class="ml-1">✍️</span>
+                            </a>
+                        </div>
+
+                        <div class="flex items-end">
+                            <img src="assets/img/sellos.png" alt="" class="sello">
+                            <img src="assets/img/blockchain.png" alt="" class="sello">
+                        </div>
+
+                    </div>
+                    <div class="flex items-center justify-center my-4">
+                        <img src="assets/img/tiempo.png" alt="" class="sello-tiempo">
+                    </div>
+                </div>
+
+
+
+            </div>
 
 
         </div>
-
-
     </div>
-
     <!-- Modal de firma -->
     <div id="firmaModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg w-120 text-center">

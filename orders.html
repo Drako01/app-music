@@ -15,99 +15,105 @@
 <body class="bg-gray-900 text-white">
 
     <!-- HEADER HARDCODEADO-->
-    <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
-        <div class="text-2xl font-bold">🎷Regalías Market</div>
-        <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
-        <div class="flex space-x-4">
+    <header
+        class="bg-gray-800 p-4 flex flex-col md:flex-row justify-between items-start md:items-center fixed top-0 w-full z-10">
+        <div class="text-2xl font-bold p-2">🎷Regalías Market</div>
+
+        <!-- Ocultar en móviles, mostrar en pantallas medianas y grandes -->
+        <input type="text" placeholder="Buscar música, compositores..."
+            class="hidden md:block p-2 rounded-md w-1/3 text-black">
+
+        <!-- Contenedor de los enlaces -->
+        <div
+            class="flex flex-col md:flex-row w-full md:w-auto items-start md:items-center space-y-2 md:space-y-0 md:space-x-4 mt-2 md:mt-0">
             <!-- Siempre muestra Carrito, Mis Compras y Logout -->
-            <div class="flex space-x-4">
-                <a href="index.html">🛒 Carrito</a>
-                <!-- Menú desplegable de perfil -->
-                <div class="relative">
-                    <!-- Botón de Perfil -->
-                    <a href="index.html">👤 Mi Perfil</a>
-                </div>
-                <!-- Botón de Logout -->
-                <a href="index.html" class="text-red-500">🚪 Cerrar sesión</a>
+            <a href="index.html" class="w-full md:w-auto p-2">🛒 Carrito</a>
+
+            <!-- Menú desplegable de perfil -->
+            <div class="relative w-full md:w-auto p-2">
+                <a href="index.html">👤 Mi Perfil</a>
             </div>
+
+            <!-- Botón de Logout -->
+            <a href="index.html" class="text-red-500 w-full md:w-auto p-2">🚪 Cerrar sesión</a>
         </div>
     </header>
 
+    <div class="body">
 
+        <div class="container mx-auto mt-8 p-8 order">
+            <h1 class="text-xl font-semibold text-center mb-4">Aceptación de publicacion</h1>
+            <p class="mb-4">Tabla de condiciones de la Oferta:</p>
+            <p class="mb-4">Establezca seleccionando de los siguientes combos la oferta que realiza:</p>
 
-    <div class="container mx-auto mt-8 p-8 order">
-        <h1 class="text-xl font-semibold text-center mb-4">Aceptación de publicacion</h1>
-        <p class="mb-4">Tabla de condiciones de la Oferta:</p>
-        <p class="mb-4">Establezca seleccionando de los siguientes combos la oferta que realiza:</p>
-
-        <!-- Tabla de Selección -->
-        <table class="border border-gray-700 w-full text-white">
-            <tr>
-                <th class="p-2 border border-gray-600">Porcentaje</th>
-                <th class="p-2 border border-gray-600">Duración</th>
-                <th class="p-2 border border-gray-600">Valor</th>
-            </tr>
-            <tr>
-                <!-- Selección de porcentaje -->
-                <td class="p-4 border border-gray-600">
-                    <select id="porcentaje" class="p-1 bg-gray-700 text-white">
-                        <option value="1%">1%</option>
-                        <option value="2%">2%</option>
-                        <option value="5%">5%</option>
-                        <option value="10%">10%</option>
-                        <option value="25%">25%</option>
-                        <option value="50%">50%</option>
-                        <option value="100%">100%</option>
-                    </select>
-                </td>
-
-                <!-- Selección de duración -->
-                <td class="p-4 border border-gray-600 flex justify-between items-center">
-                    <select id="duracion" class="p-1 bg-gray-700 text-white">
-                        <option value="1 día">1 día</option>
-                        <option value="2 días">2 días</option>
-                        <option value="1 mes">1 mes</option>
-                        <option value="3 meses">3 meses</option>
-                        <option value="6 meses">6 meses</option>
-                        <option value="1 año">1 año</option>
-                        <option value="5 años">5 años</option>
-                    </select>
-
-                    <label class="mt-2">
-                        <input type="checkbox" id="porVida"> Por vida
-                    </label>
-                </td>
-
-                <!-- Selección de valor -->
-                <td class="p-4 border border-gray-600">
-                    <select id="valor" class="p-1 bg-gray-700 text-white">
-                        <option value="10 mil pesos">10 mil pesos</option>
-                        <option value="15 mil pesos">15 mil pesos</option>
-                        <option value="20 mil pesos">20 mil pesos</option>
-                        <option value="50 mil pesos">50 mil pesos</option>
-                        <option value="100 mil pesos">100 mil pesos</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-        <br>
-        <!-- Tabla de Valores Seleccionados -->
-        <h1 class="text-xl text-center font-semibold mt-10">Valores seleccionados</h1>
-        <div class="flex justify-between items-center p-8">
-            <table class="border border-gray-700 mt-2 text-white">
+            <!-- Tabla de Selección -->
+            <table class="border border-gray-700 w-full text-white">
                 <tr>
-                    <td id="seleccionPorcentaje" class="p-2 border border-gray-600">-</td>
-                    <td id="seleccionDuracion" class="p-2 border border-gray-600">-</td>
-                    <td id="seleccionValor" class="p-2 border border-gray-600">-</td>
+                    <th class="p-2 border border-gray-600">Porcentaje</th>
+                    <th class="p-2 border border-gray-600">Duración</th>
+                    <th class="p-2 border border-gray-600">Valor</th>
+                </tr>
+                <tr>
+                    <!-- Selección de porcentaje -->
+                    <td class="p-4 border border-gray-600">
+                        <select id="porcentaje" class="p-1 bg-gray-700 text-white">
+                            <option value="1%">1%</option>
+                            <option value="2%">2%</option>
+                            <option value="5%">5%</option>
+                            <option value="10%">10%</option>
+                            <option value="25%">25%</option>
+                            <option value="50%">50%</option>
+                            <option value="100%">100%</option>
+                        </select>
+                    </td>
+
+                    <!-- Selección de duración -->
+                    <td class="p-4 border border-gray-600 flex justify-between items-center encolumna">
+                        <select id="duracion" class="p-1 bg-gray-700 text-white">
+                            <option value="1 día">1 día</option>
+                            <option value="2 días">2 días</option>
+                            <option value="1 mes">1 mes</option>
+                            <option value="3 meses">3 meses</option>
+                            <option value="6 meses">6 meses</option>
+                            <option value="1 año">1 año</option>
+                            <option value="5 años">5 años</option>
+                        </select>
+
+                        <label class="mt-2">
+                            <input type="checkbox" id="porVida"> Por vida
+                        </label>
+                    </td>
+
+                    <!-- Selección de valor -->
+                    <td class="p-4 border border-gray-600">
+                        <select id="valor" class="p-1 bg-gray-700 text-white">
+                            <option value="10 mil pesos">10 mil pesos</option>
+                            <option value="15 mil pesos">15 mil pesos</option>
+                            <option value="20 mil pesos">20 mil pesos</option>
+                            <option value="50 mil pesos">50 mil pesos</option>
+                            <option value="100 mil pesos">100 mil pesos</option>
+                        </select>
+                    </td>
                 </tr>
             </table>
-            <!-- Botón Aceptar -->
-            <button id="btnAceptar" class="mt-4 bg-green-500 text-white px-4 py-2 rounded w-80">
-                Publicar
-            </button>
+            <br>
+            <!-- Tabla de Valores Seleccionados -->
+            <h1 class="text-xl text-center font-semibold mt-10">Valores seleccionados</h1>
+            <div class="flex justify-between items-center p-8 encolumna">
+                <table class="border border-gray-700 mt-2 text-white">
+                    <tr>
+                        <td id="seleccionPorcentaje" class="p-2 border border-gray-600">-</td>
+                        <td id="seleccionDuracion" class="p-2 border border-gray-600">-</td>
+                        <td id="seleccionValor" class="p-2 border border-gray-600">-</td>
+                    </tr>
+                </table>
+                <!-- Botón Aceptar -->
+                <button id="btnAceptar" class="mt-4 bg-green-500 text-white px-4 py-2 rounded w-80">
+                    Publicar
+                </button>
+            </div>
         </div>
     </div>
-
 
     <!-- FOOTER -->
     <footer class="bg-gray-800 text-gray-300 p-6 mt-10">

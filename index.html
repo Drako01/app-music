@@ -49,13 +49,15 @@
 
 
         <!-- HEADER -->
-        <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10">
-            <div class="text-2xl font-bold">🎷Regalías Market</div>
-            <input type="text" placeholder="Buscar música, compositores..." class="p-2 rounded-md w-1/3 text-black">
-            <div class="flex space-x-4">
+        <header class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 w-full z-10 header-index">
+            <div class="text-2xl font-bold regalias">🎷Regalías Market</div>
+            <!-- Ocultar en móviles, mostrar en pantallas medianas y grandes -->
+            <input type="text" placeholder="Buscar música, compositores..."
+                class="hidden md:block p-2 rounded-md w-1/3 text-black">
+            <div class="flex space-x-4 ">
                 <!-- Si está logueado, muestra Carrito, Mis Compras y Logout -->
                 <template x-if="Alpine.store('auth').isLoggedIn">
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 header-index-hijo">
                         <button @click="showCart = true">🛒 Carrito</button>
 
 
@@ -133,18 +135,18 @@
             </div>
         </header>
 
+        <div class="body">
+            <!-- HERO CON EFECTO PARALLAX -->
+            <section class="relative h-[500px] flex items-center justify-center text-center bg-fixed bg-cover bg-center"
+                style="background-image: url('assets/img/instrumentos.jpg');">
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg">
+                    <h1 class="text-4xl font-bold">Explora la Música</h1>
+                    <p class="text-lg">Composiciones, letras y más en un solo lugar.</p>
+                </div>
+            </section>
 
-        <!-- HERO CON EFECTO PARALLAX -->
-        <section class="relative h-[500px] flex items-center justify-center text-center bg-fixed bg-cover bg-center"
-            style="background-image: url('assets/img/instrumentos.jpg');">
-            <div class="bg-black bg-opacity-50 p-6 rounded-lg">
-                <h1 class="text-4xl font-bold">Explora la Música</h1>
-                <p class="text-lg">Composiciones, letras y más en un solo lugar.</p>
-            </div>
-        </section>
-
-        <!-- CARRUSEL -->
-        <section class="p-4" x-data="{ 
+            <!-- CARRUSEL -->
+            <section class="p-4" x-data="{ 
         active: 0, 
         items: [
                     { title: 'Groovy Ambient Funk', type: 'Canción', image: 'assets/img/cancion1.webp', audio: 'assets/music/cancion01.mp3' },
@@ -156,53 +158,53 @@
                     next() { this.active = (this.active + 1) % this.items.length },
                     prev() { this.active = (this.active - 1 + this.items.length) % this.items.length }
                 }" x-init="setInterval(() => next(), 3000)">
-            <h2 class="text-xl font-bold mb-2 text-center">Últimos Incorporados</h2>
+                <h2 class="text-xl font-bold mb-2 text-center">Últimos Incorporados</h2>
 
-            <div class="relative w-full max-w-3xl mx-auto overflow-hidden my-8">
-                <div class="flex transition-transform duration-500 ease-in-out"
-                    :style="'transform: translateX(-' + active * 100 + '%)'">
-                    <template x-for="(item, index) in items" :key="index">
-                        <div
-                            class="w-full flex-shrink-0 flex flex-col items-center justify-center bg-gray-700 p-4 rounded-lg">
-                            <img :src="item.image" alt="Imagen de la canción o composición"
-                                class="w-full h-80 object-cover rounded-lg">
-                            <h3 class="text-lg font-semibold mt-2" x-text="item.title"></h3>
-                            <p class="text-gray-400 text-sm" x-text="item.type"></p>
-                            <button @click="playAudio(item.audio)" x-show="Alpine.store('auth').isLoggedIn"
-                                class="mt-2 bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded flex items-center">
-                                ▶ Reproducir
-                            </button>
-                            <button @click="Alpine.store('cart').addToCart(item)"
-                                x-show="Alpine.store('auth').isLoggedIn" class="btn bg-gray-500 hover:bg-gray-700">
-                                💰
-                            </button>
-                        </div>
-                    </template>
+                <div class="relative w-full max-w-3xl mx-auto overflow-hidden my-8">
+                    <div class="flex transition-transform duration-500 ease-in-out"
+                        :style="'transform: translateX(-' + active * 100 + '%)'">
+                        <template x-for="(item, index) in items" :key="index">
+                            <div
+                                class="w-full flex-shrink-0 flex flex-col items-center justify-center bg-gray-700 p-4 rounded-lg">
+                                <img :src="item.image" alt="Imagen de la canción o composición"
+                                    class="w-full h-80 object-cover rounded-lg">
+                                <h3 class="text-lg font-semibold mt-2" x-text="item.title"></h3>
+                                <p class="text-gray-400 text-sm" x-text="item.type"></p>
+                                <button @click="playAudio(item.audio)" x-show="Alpine.store('auth').isLoggedIn"
+                                    class="mt-2 bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded flex items-center">
+                                    ▶ Reproducir
+                                </button>
+                                <button @click="Alpine.store('cart').addToCart(item)"
+                                    x-show="Alpine.store('auth').isLoggedIn" class="btn bg-gray-500 hover:bg-gray-700">
+                                    💰
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Botones del carrusel -->
+                    <button @click="prev()"
+                        class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 px-3 py-2">◀</button>
+                    <button @click="next()"
+                        class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 px-3 py-2">▶</button>
                 </div>
 
-                <!-- Botones del carrusel -->
-                <button @click="prev()"
-                    class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 px-3 py-2">◀</button>
-                <button @click="next()"
-                    class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 px-3 py-2">▶</button>
-            </div>
+                <!-- AUDIO PLAYER (OCULTO) -->
+                <audio id="audioPlayer" class="hidden"></audio>
 
-            <!-- AUDIO PLAYER (OCULTO) -->
-            <audio id="audioPlayer" class="hidden"></audio>
-
-        </section>
+            </section>
 
 
-        <!-- MENÚ DE NAVEGACIÓN CON DESPLEGABLE -->
-        <nav class="bg-gray-800 p-4 flex justify-between items-center w-1200">
-            <div class="space-x-4">
-                <a href="#" class="text-yellow-400">🎼 Composiciones</a>
-                <a href="#" class="text-yellow-400">✍️ Letras</a>
-                <a href="#" class="text-yellow-400">🎤 Interpretaciones</a>
-                <a href="#" class="text-yellow-400">📜 Obras Completas</a>
+            <!-- MENÚ DE NAVEGACIÓN CON DESPLEGABLE -->
+            <nav class="bg-gray-800 p-4 flex justify-between items-center w-1200">
+                <div class="space-x-4">
+                    <a href="#" class="text-yellow-400">🎼 Composiciones</a>
+                    <a href="#" class="text-yellow-400">✍️ Letras</a>
+                    <a href="#" class="text-yellow-400">🎤 Interpretaciones</a>
+                    <a href="#" class="text-yellow-400">📜 Obras Completas</a>
 
-                <!-- Menú desplegable -->
-                <div class="relative inline-block" x-data="{ 
+                    <!-- Menú desplegable -->
+                    <div class="relative inline-block" x-data="{ 
                         open: false, 
                         showModal: false, 
                         newTitle: '', 
@@ -216,86 +218,102 @@
                         sheetUploaded: false,
                         declarationAccepted: false
                     }">
-                    
-                    <!-- Botón Más -->
-                    <button @click="open = !open" class="text-yellow-400">➕ Más</button>
 
-                    <!-- Opciones del menú -->
-                    <div x-show="open" x-transition.opacity class="absolute bg-gray-700 p-2 mt-2 rounded shadow-lg min-w-72">
-                        <a href="#" @click.prevent="window.handlePublication('Letra')" class="block px-4 py-2 hover:bg-gray-600 rounded">✍️ Publicar Letra</a>
-                        <a href="#" @click.prevent="window.handlePublication('Composición')" class="block px-4 py-2 hover:bg-gray-600 rounded">🎼 Publicar Composición</a>
-                        <a href="#" @click.prevent="window.handlePublication('Interpretación')" class="block px-4 py-2 hover:bg-gray-600 rounded">🎤 Publicar Interpretación</a>
-                        <a href="#" @click.prevent="window.handlePublication('Obra Completa')" class="block px-4 py-2 hover:bg-gray-600 rounded">📜 Publicar Obra Completa</a>
-                    </div>
-                
-                    <!-- Modal de publicación -->
-                    <div x-show="$store.ui.showModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                        <!-- Botón Más -->
+                        <button @click="open = !open" class="text-yellow-400">➕ Más</button>
 
-                        <div class="bg-gray-800 p-8 rounded shadow-lg w-[700px]">
-                            <h2 class="text-xl font-semibold text-white mb-4">Nueva Publicación</h2>
-                
-                            <!-- Tipo de publicación -->
-                            <p class="text-white"><strong>Tipo:</strong> <span x-text="newType"></span></p>
-                
-                            <!-- Campo Título -->
-                            <label class="block text-white mt-2">Título:</label>
-                            <input type="text" x-model="newTitle" class="w-full p-2 rounded bg-gray-700 text-white mb-3">
-                
-                            <!-- Campo URL / Archivo -->
-                            <label class="block text-white">URL / Archivo:</label>
-                            <input type="text" x-model="newUrl" class="w-full p-2 rounded bg-gray-700 text-white mb-3">
-                
-                            <hr class="my-2 border-gray-500">
-                            <div class="space-y-2">
-                            <!-- Checkbox: Es el creador? -->
-                            <label class="flex items-center space-x-2 text-white">
-                                <input type="checkbox" x-model="isCreator" class="form-checkbox text-blue-500">
-                                <span>¿Es el creador?</span>
-                            </label>
-                
-                            <!-- Checkbox: Posee derechos de un tercero -->
-                            <label class="flex items-center space-x-2 text-white">
-                                <input type="checkbox" x-model="thirdPartyRights" class="form-checkbox text-blue-500">
-                                <span>¿Posee los derechos de un tercero?</span>
-                            </label>
-                            </div>
-                            <hr class="my-2 border-gray-500">
-                
-                            <!-- Campos adicionales si es el creador -->
-                            <div x-show="isCreator" x-transition.opacity>
-                                <label class="block text-white mt-2">Número de DNDA:</label>
-                                <input type="text" x-model="dndaNumber" class="w-full p-2 rounded bg-gray-700 text-white mb-3">
-                
-                                <label class="block text-white">Nombre de la Composición:</label>
-                                <input type="text" x-model="compositionName" class="w-full p-2 rounded bg-gray-700 text-white mb-3">
-                
-                                <!-- Botón Subir Partitura -->
-                                <div class="mt-2">
-                                    <button @click="sheetUploaded = true" class="bg-gray-500 text-white px-3 py-1 rounded">
-                                        📜 Subir Partitura
-                                    </button>
-                                    <span x-show="sheetUploaded" class="text-green-400 ml-2">✅ Partitura subida</span>
+                        <!-- Opciones del menú -->
+                        <div x-show="open" x-transition.opacity
+                            class="absolute bg-gray-700 p-2 mt-2 rounded shadow-lg min-w-72">
+                            <a href="#" @click.prevent="window.handlePublication('Letra')"
+                                class="block px-4 py-2 hover:bg-gray-600 rounded">✍️ Publicar Letra</a>
+                            <a href="#" @click.prevent="window.handlePublication('Composición')"
+                                class="block px-4 py-2 hover:bg-gray-600 rounded">🎼 Publicar Composición</a>
+                            <a href="#" @click.prevent="window.handlePublication('Interpretación')"
+                                class="block px-4 py-2 hover:bg-gray-600 rounded">🎤 Publicar Interpretación</a>
+                            <a href="#" @click.prevent="window.handlePublication('Obra Completa')"
+                                class="block px-4 py-2 hover:bg-gray-600 rounded">📜 Publicar Obra Completa</a>
+                        </div>
+
+                        <!-- Modal de publicación -->
+                        <div x-show="$store.ui.showModal" x-transition.opacity
+                            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+
+                            <div class="bg-gray-800 p-8 rounded shadow-lg w-[700px]">
+                                <h2 class="text-xl font-semibold text-white mb-4">Nueva Publicación</h2>
+
+                                <!-- Tipo de publicación -->
+                                <p class="text-white"><strong>Tipo:</strong> <span x-text="newType"></span></p>
+
+                                <!-- Campo Título -->
+                                <label class="block text-white mt-2">Título:</label>
+                                <input type="text" x-model="newTitle"
+                                    class="w-full p-2 rounded bg-gray-700 text-white mb-3">
+
+                                <!-- Campo URL / Archivo -->
+                                <label class="block text-white">URL / Archivo:</label>
+                                <input type="text" x-model="newUrl"
+                                    class="w-full p-2 rounded bg-gray-700 text-white mb-3">
+
+                                <hr class="my-2 border-gray-500">
+                                <div class="space-y-2">
+                                    <!-- Checkbox: Es el creador? -->
+                                    <label class="flex items-center space-x-2 text-white">
+                                        <input type="checkbox" x-model="isCreator" class="form-checkbox text-blue-500">
+                                        <span>¿Es el creador?</span>
+                                    </label>
+
+                                    <!-- Checkbox: Posee derechos de un tercero -->
+                                    <label class="flex items-center space-x-2 text-white">
+                                        <input type="checkbox" x-model="thirdPartyRights"
+                                            class="form-checkbox text-blue-500">
+                                        <span>¿Posee los derechos de un tercero?</span>
+                                    </label>
                                 </div>
-                
-                                <!-- Botón Subir Sample -->
-                                <div class="mt-2">
-                                    <button @click="sampleUploaded = true" class="bg-gray-500 text-white px-3 py-1 rounded">
-                                        🎵 Subir Sample
-                                    </button>
-                                    <span x-show="sampleUploaded" class="text-green-400 ml-2">✅ Sample subido</span>
+                                <hr class="my-2 border-gray-500">
+
+                                <!-- Campos adicionales si es el creador -->
+                                <div x-show="isCreator" x-transition.opacity>
+                                    <label class="block text-white mt-2">Número de DNDA:</label>
+                                    <input type="text" x-model="dndaNumber"
+                                        class="w-full p-2 rounded bg-gray-700 text-white mb-3">
+
+                                    <label class="block text-white">Nombre de la Composición:</label>
+                                    <input type="text" x-model="compositionName"
+                                        class="w-full p-2 rounded bg-gray-700 text-white mb-3">
+
+                                    <!-- Botón Subir Partitura -->
+                                    <div class="mt-2">
+                                        <button @click="sheetUploaded = true"
+                                            class="bg-gray-500 text-white px-3 py-1 rounded">
+                                            📜 Subir Partitura
+                                        </button>
+                                        <span x-show="sheetUploaded" class="text-green-400 ml-2">✅ Partitura
+                                            subida</span>
+                                    </div>
+
+                                    <!-- Botón Subir Sample -->
+                                    <div class="mt-2">
+                                        <button @click="sampleUploaded = true"
+                                            class="bg-gray-500 text-white px-3 py-1 rounded">
+                                            🎵 Subir Sample
+                                        </button>
+                                        <span x-show="sampleUploaded" class="text-green-400 ml-2">✅ Sample subido</span>
+                                    </div>
                                 </div>
-                            </div>
-                
-                            <hr class="my-2 border-gray-500">
-                
-                            <!-- Declaración de veracidad -->
-                            <label class="flex items-center space-x-2 text-white mt-2">
-                                <input type="checkbox" x-model="declarationAccepted" class="form-checkbox text-blue-500">
-                                <span>Declaro que los datos ingresados son reales y coinciden con los derechos que poseo.</span>
-                            </label>
-                
-                            <!-- Botón Guardar -->
-                            <button @click="
+
+                                <hr class="my-2 border-gray-500">
+
+                                <!-- Declaración de veracidad -->
+                                <label class="flex items-center space-x-2 text-white mt-2">
+                                    <input type="checkbox" x-model="declarationAccepted"
+                                        class="form-checkbox text-blue-500">
+                                    <span>Declaro que los datos ingresados son reales y coinciden con los derechos que
+                                        poseo.</span>
+                                </label>
+
+                                <!-- Botón Guardar -->
+                                <button @click="
                                 if(newTitle.trim() === '') {
                                     Alpine.store('notification').showMessage('⚠️ Debes ingresar un título', 'error');
                                     return;
@@ -327,78 +345,79 @@
                                     window.location.href = 'orders.html'; 
                                 }, 1000);
                             " class="mt-3 w-full bg-green-500 text-white p-2 rounded">Guardar</button>
-                
-                            <!-- Botón Cancelar -->
-                            <button @click="$store.ui.showModal = false" class="mt-3 w-full bg-red-500 text-white p-2 rounded">Cancelar</button>
+
+                                <!-- Botón Cancelar -->
+                                <button @click="$store.ui.showModal = false"
+                                    class="mt-3 w-full bg-red-500 text-white p-2 rounded">Cancelar</button>
+                            </div>
                         </div>
                     </div>
+
+
                 </div>
-                
-
-            </div>
-        </nav>
+            </nav>
 
 
-        <!-- CONTENIDO ALEATORIO -->
-        <section class="p-4">
-            <h2 class="text-xl font-bold mb-2">Descubre Nuevos Talentos</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-gray-700 p-4">🎶 Nuevas Cancionesa</div>
-                <div class="bg-gray-700 p-4">✍️ Letras Destacadas</div>
-                <div class="bg-gray-700 p-4">🎤 Nuevos Compositores</div>
-                <div class="bg-gray-700 p-4">📜 Obras Completas</div>
-            </div>
-        </section>
+            <!-- CONTENIDO ALEATORIO -->
+            <section class="p-4">
+                <h2 class="text-xl font-bold mb-2">Descubre Nuevos Talentos</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-gray-700 p-4">🎶 Nuevas Cancionesa</div>
+                    <div class="bg-gray-700 p-4">✍️ Letras Destacadas</div>
+                    <div class="bg-gray-700 p-4">🎤 Nuevos Compositores</div>
+                    <div class="bg-gray-700 p-4">📜 Obras Completas</div>
+                </div>
+            </section>
 
-        <!-- LISTA DE CONTENIDO DESTACADO -->
-        <section class="p-8" x-data="contentData()">
-            <h2 class="text-2xl font-bold mb-4">🎼 Descubre Más Música</h2>
+            <!-- LISTA DE CONTENIDO DESTACADO -->
+            <section class="p-8" x-data="contentData()">
+                <h2 class="text-2xl font-bold mb-4">🎼 Descubre Más Música</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                <template x-for="(item, index) in contentList" :key="index">
-                    <div class="flex justify-between items-center bg-gray-800 p-4 rounded-lg shadow-md">
-                        <div>
-                            <h3 class="text-lg font-semibold" x-text="item.title"></h3>
-                            <p class="text-gray-400 text-sm" x-text="item.type"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                    <template x-for="(item, index) in contentList" :key="index">
+                        <div class="flex justify-between items-center bg-gray-800 p-4 rounded-lg shadow-md">
+                            <div>
+                                <h3 class="text-lg font-semibold" x-text="item.title"></h3>
+                                <p class="text-gray-400 text-sm" x-text="item.type"></p>
+                            </div>
+
+                            <!-- Este div debe aparecer SIEMPRE, pero solo mostrará los botones si está logueado -->
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button
+                                    x-show="Alpine.store('auth').isLoggedIn && (item.type === 'Canción' || item.type === 'Composición')"
+                                    @click="playAudio(item.audio)" class="btn bg-green-500 hover:bg-green-700">
+                                    ▶
+                                </button>
+
+                                <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Letra'"
+                                    @click.prevent="loadLyrics(item.title, item.url)"
+                                    class="btn bg-yellow-500 hover:bg-yellow-700">
+                                    📜
+                                </a>
+
+                                <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Compositor'"
+                                    :href="item.url" class="btn bg-blue-500 hover:bg-blue-700">
+                                    <i class="fas fa-user"></i>
+                                </a>
+
+                                <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Partitura'"
+                                    :href="item.image" target="_blank" class="btn bg-purple-500 hover:bg-purple-700">
+                                    🎼
+                                </a>
+
+                                <button @click="Alpine.store('cart').addToCart(item)"
+                                    x-show="Alpine.store('auth').isLoggedIn" class="btn bg-gray-500 hover:bg-gray-700">
+                                    💰
+                                </button>
+
+
+
+                            </div>
                         </div>
-
-                        <!-- Este div debe aparecer SIEMPRE, pero solo mostrará los botones si está logueado -->
-                        <div class="flex flex-wrap items-center gap-2">
-                            <button
-                                x-show="Alpine.store('auth').isLoggedIn && (item.type === 'Canción' || item.type === 'Composición')"
-                                @click="playAudio(item.audio)" class="btn bg-green-500 hover:bg-green-700">
-                                ▶
-                            </button>
-
-                            <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Letra'"
-                                @click.prevent="loadLyrics(item.title, item.url)"
-                                class="btn bg-yellow-500 hover:bg-yellow-700">
-                                📜
-                            </a>
-
-                            <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Compositor'" :href="item.url"
-                                class="btn bg-blue-500 hover:bg-blue-700">
-                                <i class="fas fa-user"></i>
-                            </a>
-
-                            <a x-show="Alpine.store('auth').isLoggedIn && item.type === 'Partitura'" :href="item.image"
-                                target="_blank" class="btn bg-purple-500 hover:bg-purple-700">
-                                🎼
-                            </a>
-
-                            <button @click="Alpine.store('cart').addToCart(item)"
-                                x-show="Alpine.store('auth').isLoggedIn" class="btn bg-gray-500 hover:bg-gray-700">
-                                💰
-                            </button>
-
-
-
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </section>
-
+                    </template>
+                </div>
+            </section>
+        </div>
 
         <!-- FOOTER -->
         <footer class="bg-gray-800 text-gray-300 p-6 mt-10">

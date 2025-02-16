@@ -1,9 +1,13 @@
 /* Archivo: /assets/styles/styles.css */
 body {
-    overflow-x: hidden; /* Oculta la barra de scroll lateral */
-    overflow-y: scroll; /* Permite el desplazamiento vertical sin mostrar la barra */
-    scrollbar-width: none; /* Para Firefox */
-    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+    overflow-x: hidden;
+    /* Oculta la barra de scroll lateral */
+    overflow-y: scroll;
+    /* Permite el desplazamiento vertical sin mostrar la barra */
+    scrollbar-width: none;
+    /* Para Firefox */
+    -ms-overflow-style: none;
+    /* Para Internet Explorer y Edge */
 }
 
 /* Para ocultar la barra de scroll en WebKit (Chrome, Safari) */
@@ -15,24 +19,91 @@ body::-webkit-scrollbar {
 .btn {
     color: white;
     padding: 8px 16px;
-    width: 48px;  /* w-12 en Tailwind */
-    height: 48px; /* h-12 en Tailwind */
-    font-size: 1.125rem; /* text-lg en Tailwind */
-    border-radius: 0.25rem; /* rounded en Tailwind */
+    width: 48px;
+    /* w-12 en Tailwind */
+    height: 48px;
+    /* h-12 en Tailwind */
+    font-size: 1.125rem;
+    /* text-lg en Tailwind */
+    border-radius: 0.25rem;
+    /* rounded en Tailwind */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.order{
+.order {
     margin-top: 10rem !important;
     max-width: 1080px !important;
 }
 
-.box-firmas{
+.box-firmas {
     align-items: flex-end !important;
 }
 
-.sello{
+.sello {
     height: 14rem;
+}
+
+@media screen and (max-width: 768px) {
+    .header-index {
+        flex-direction: column !important;
+        /* Alinear en columna */
+        align-items: flex-start !important;
+        /* Alinear a la izquierda */
+
+    }
+
+    .header-index input {
+        display: none;
+        /* Ocultar el input de búsqueda */
+    }
+
+    .header-index div {
+        width: 100%;
+        /* Ocupar todo el ancho */
+    }
+
+    .header-index-hijo {
+        display: flex;
+        flex-direction: column !important;
+        /* Alinear en columna */
+        align-items: flex-start !important;
+        margin-left: 0 !important;
+        gap: .5rem;
+    }
+
+    .regalias {
+        padding: .5rem 0;
+    }
+
+    .header-index-hijo button,
+    .header-index-hijo .relative {
+
+        margin-left: 0 !important;
+    }
+
+    .header-index a,
+    .header-index button {
+        width: 100%;
+        /* Hacer que los botones ocupen todo el ancho */
+        text-align: left;
+        /* Alinear texto a la izquierda */
+        padding: 10px 0;
+        /* Espaciado arriba y abajo */
+    }
+
+    .body{
+        padding-top: 6rem;
+    }
+
+    footer p{
+        font-size: .7rem;
+    }
+
+    .encolumna{
+        flex-direction: column !important;
+        justify-content: center !important;
+        padding: 0;
+    }
 }
