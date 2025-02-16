@@ -51,35 +51,35 @@
             Cuadro de la oferta cargada por el <span class="text-green-400 font-semibold">sesionante</span>
         </p>
 
-        <!-- Tabla con mayor separación -->
-        <div class="flex justify-center mb-12">
-            <table class="border border-gray-600 w-1/2 text-center">
-                <tr>
-                    <td id="tdPorcentaje" class="p-4 border border-gray-600 bg-green-600 text-lg"></td>
-                    <td id="tdDuracion" class="p-4 border border-gray-600 bg-green-600 text-lg"></td>
-                    <td id="tdValor" class="p-4 border border-gray-600 bg-green-600 text-lg"></td>
-                </tr>
-            </table>
-        </div>
+
+        <pre>
+            <ul id="listaComprada"></ul>
+        </pre>
 
         <!-- Botón con más espacio -->
-        <p class="mb-6 text-lg font-semibold">Aceptar condiciones y generar contrato de cesión de <a href="#"
-                class="underline">derechos</a>.</p>
-        <button id="btnAceptarLegal"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mb-12 w-80">
-            Aceptar
-        </button>
+        <section id="aceptado">
+            <p class="mb-6 text-lg font-semibold">Debe Aceptar las condiciones para generar contrato de cesión de <a
+                    href="#" class="underline">derechos</a>.</p>
+            <button id="btnAceptarLegal"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mb-12 w-80">
+                Aceptar
+            </button>
+        </section>
 
-        <!-- Imagen con más espacio -->
-        <div class="flex justify-center mb-10">
-            <img src="assets/img/documento.png" alt="Documento Seguro - Escribano Digital"
-                class="w-1/2 border border-gray-600 rounded-lg">
-        </div>
+        <section id="section-mail" class="hidden">
+            <p class="mb-6 text-lg font-semibold">Usted Aceptó condiciones para generar contrato de cesión de <a
+                href="#" class="underline">derechos</a>.</p>
+            <!-- Imagen con más espacio -->
+            <div class="flex justify-center mb-10">
+                <img src="assets/img/documento.png" alt="Documento Seguro - Escribano Digital"
+                    class="w-1/2 border border-gray-600 rounded-lg">
+            </div>
 
-        <!-- Leyenda con más margen -->
-        <a href="mail.html">
-            <p class="mt-8 text-gray-300 text-xl">📧 Abrimos el correo</p>
-        </a>
+            <!-- Leyenda con más margen -->
+            <button id="irAMail">
+                <p class="mt-8 text-gray-300 text-xl">📧 Abrimos el correo</p>
+            </button>
+        </section>
 
     </div>
 

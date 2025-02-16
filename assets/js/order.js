@@ -46,6 +46,6 @@ cargarValoresGuardados();
 document.getElementById("btnAceptar").addEventListener("click", function () {
     Alpine.store('notification').showMessage("✅ Usted aceptó la publicación, redireccionando...");
     setTimeout(function () {
-        window.location.href = "finally.html";
+        window.location.href = "index.html";
     }, 2000);
 });

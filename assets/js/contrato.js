@@ -1,12 +1,7 @@
-document.getElementById("btnAceptarLegal").addEventListener("click", function () {
-    document.getElementById("section-mail").classList.remove("hidden");
-    document.getElementById("aceptado").classList.add("hidden");
-
-});
-
+// Asegurar que Alpine ya está cargado antes de usarlo
 document.addEventListener("DOMContentLoaded", function () {
 
-    document.getElementById("irAMail").addEventListener("click", function () {
+    document.getElementById("clientesFelices").addEventListener("click", function () {
 
         // ✅ Muestra la notificación
         if (window.Alpine && Alpine.store("notification")) {
@@ -17,8 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // ✅ Redirige después de 2.5 segundos
         setTimeout(() => {
-            window.location.href = "mail.html";
+            window.location.href = "clientes-felices.html";
         }, 2500);
     });
 
 });
+

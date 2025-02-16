@@ -47,30 +47,6 @@
             <div class="bg-green-700 text-white font-bold px-4 py-2 rounded-md">
                 Enviado por <span class="font-semibold">Regalias Market</span>
             </div>
-
-            <!-- Sección de documentos adjuntos -->
-            <div class="mt-4 p-4 bg-white border border-gray-300 rounded-md">
-                <p class="font-bold">
-                    <span class="italic">Documento/s</span> Adjuntos para su firma.
-                </p>
-
-                <!-- Documento adjunto -->
-                <div class="mt-2 flex flex-end justify-between border border-gray-300 p-2 rounded-md box-firmas">
-                    <span class="text-gray-800">contrato_derechos.pdf</span>
-                
-                    <div class="flex flex-col items-end h-full ">
-                        <a href="#" id="openModal" class="text-blue-600 hover:underline flex mt-auto">
-                            Firme aquí <span class="ml-1">✍️</span>
-                        </a>
-                    </div>
-                
-                    <div>
-                        <img src="assets/img/sellos.png" alt="">
-                    </div>
-                </div>
-                
-            </div>
-
             <!-- Sección de convocados -->
             <div class="mt-4 bg-green-700 text-white font-bold px-4 py-3 rounded-md">
                 <p class="mb-2">Convocados para la firma del presente documento:</p>
@@ -80,6 +56,34 @@
                     <li><span class="font-semibold">Escribano:</span> Edgardo Seguro</li>
                 </ol>
             </div>
+            <!-- Sección de documentos adjuntos -->
+            <div class="mt-4 p-4 bg-white border border-gray-300 rounded-md">
+                <p class="font-bold">
+                    <span class="italic">Documento/s</span> Adjuntos para su firma.
+                </p>
+
+                <!-- Documento adjunto -->
+                <div class="mt-2 flex flex-end justify-between border border-gray-300 p-2 rounded-md box-firmas">
+                    <span class="text-gray-800">contrato_derechos.pdf</span>
+
+                    <div class="flex flex-col items-end h-full ">
+                        <a href="#" id="openModal" class="text-blue-600 hover:underline flex mt-auto">
+                            Firme aquí <span class="ml-1">✍️</span>
+                        </a>
+                    </div>
+
+                    <div class="flex items-end">
+                        <img src="assets/img/sellos.png" alt="" class="sello">
+                        <img src="assets/img/blockchain.png" alt="" class="sello">
+                    </div>
+
+                </div>
+                <div class="flex items-center justify-center my-4">
+                    <img src="assets/img/tiempo.png" alt="" class="sello-tiempo">
+                </div>
+            </div>
+
+
 
         </div>
 
@@ -160,16 +164,18 @@
     </footer>
 
     <!-- 🛑 MODAL DE NOTIFICACIÓN -->
-    <div x-data="$store.notification" x-show="show" x-transition.opacity.duration.1000ms
-        @keydown.escape.window="show = false"
+    <div x-data x-show="$store.notification.show" x-transition.opacity.duration.500ms
+        @keydown.escape.window="$store.notification.show = false"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" style="display: none;">
         <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-            <p class="text-lg font-semibold text-gray-800" x-text="message"></p>
-            <button @click="show = false" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
+            <p class="text-lg font-semibold text-gray-800" x-text="$store.notification.message"></p>
+            <button @click="$store.notification.show = false" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
                 Cerrar
             </button>
         </div>
     </div>
+
+    <script src="assets/js/script.js"></script>
 
     <script src="assets/js/mail.js" defer></script>
 

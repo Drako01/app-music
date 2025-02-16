@@ -50,6 +50,9 @@ document.addEventListener('alpine:init', () => {
         }
     });
 
+   
+    
+
     // 🔹 Almacenar carrito
     Alpine.store('cart', {
         cart: JSON.parse(localStorage.getItem("cart")) || [],
@@ -84,7 +87,7 @@ document.addEventListener('alpine:init', () => {
 
             Alpine.store('notification').showMessage("✅ Redirigiendo a la compra...", "success");
             setTimeout(() => {
-                window.location.href = "orders.html";
+                window.location.href = "finally.html";
             }, 2000);
         }
     });
@@ -134,4 +137,27 @@ document.addEventListener('alpine:init', () => {
         }
     }));
     
+    Alpine.store('ui', {
+        showModal: false,
+        newType: '',
+    
+        openPublicationModal(type) {
+            console.log("📌 Abriendo modal para:", type);
+            this.newType = type;
+            this.showModal = true;
+        }
+    });
+    
+    
 });
+
+window.handlePublication = function (type) {
+    console.log("📢 Intentando publicar:", type);
+    
+    if (!Alpine.store('auth').isLoggedIn) {
+        Alpine.store('notification').showMessage("⚠️ Debes iniciar sesión para publicar.");
+    } else {
+        console.log("✅ Usuario autenticado. Abriendo modal...");
+        Alpine.store('ui').openPublicationModal(type);
+    }
+};
