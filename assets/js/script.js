@@ -5,14 +5,14 @@ document.addEventListener('alpine:init', () => {
         show: false,
         message: '',
         type: '',
-    
+
         showMessage(message, type = 'success') {
             this.message = message;
             this.type = type;
             this.show = true;
-    
+
             console.log("🔔 Notificación activada:", message);
-    
+
             // Asegurar que el modal no se oculte antes de verse
             Alpine.nextTick(() => {
                 setTimeout(() => {
@@ -22,13 +22,14 @@ document.addEventListener('alpine:init', () => {
             });
         }
     });
-    
+
     Alpine.store('auth', {
         isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
         userData: JSON.parse(localStorage.getItem("user")) || null,
 
         login(email, password) {
-            if (email === "correo@mimail.com" && password === "1234") {
+            if ((email === "correo@mimail.com" && password === "1234")
+                || (email === "otro@mimail.com" && password === "1234")) {
                 localStorage.setItem("isLoggedIn", "true");
                 localStorage.setItem("user", JSON.stringify({ email }));
 
@@ -50,8 +51,8 @@ document.addEventListener('alpine:init', () => {
         }
     });
 
-   
-    
+
+
 
     // 🔹 Almacenar carrito
     Alpine.store('cart', {
@@ -136,24 +137,24 @@ document.addEventListener('alpine:init', () => {
             player.play();
         }
     }));
-    
+
     Alpine.store('ui', {
         showModal: false,
         newType: '',
-    
+
         openPublicationModal(type) {
             console.log("📌 Abriendo modal para:", type);
             this.newType = type;
             this.showModal = true;
         }
     });
-    
-    
+
+
 });
 
 window.handlePublication = function (type) {
     console.log("📢 Intentando publicar:", type);
-    
+
     if (!Alpine.store('auth').isLoggedIn) {
         Alpine.store('notification').showMessage("⚠️ Debes iniciar sesión para publicar.");
     } else {
